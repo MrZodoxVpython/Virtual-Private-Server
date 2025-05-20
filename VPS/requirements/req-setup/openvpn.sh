@@ -85,7 +85,7 @@ echo "=============================Contact==============================" | tee 
 echo "--------------------------BENJAMIN-DEV----------------------------" | tee -a log-install.txt
 echo "-------------------------benjaminwickman--------------------------" | tee -a log-install.txt
 echo "==================================================================" | tee -a log-install.txt
-echo -e ""
+echo ""
 echo ""
 echo "" | tee -a log-install.txt
 clear
