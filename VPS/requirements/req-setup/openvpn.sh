@@ -6,6 +6,7 @@
 # (C) Copyright 2025
 # =========================================
 # tokomard
+
 BGreen='\e[1;32m'
 NC='\e[0m'
 domain=$(cat /etc/xray/domain)
@@ -13,6 +14,7 @@ echo "$domain" > /root/domain
 clear
 MYIP=$(wget -qO- ifconfig.co);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
+
 # // install squid for ubuntu 18/20
 apt -y install squid3
 
@@ -54,6 +56,7 @@ echo -e "[ ${BGreen}ok${NC} ] Restarting stunnel4 "
 sleep 0.5
 echo -e "[ ${BGreen}ok${NC} ] Restarting vnstat "
 /etc/init.d/squid restart >/dev/null 2>&1
+echo "=== ALL PROGRESS DONE BY BENJAMIN-DEV ==="
 clear
 echo ""
 echo "=================================================================="  | tee -a log-install.txt
