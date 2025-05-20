@@ -28,5 +28,5 @@ case $opt in
 5) clear ; cat /etc/log-create-shadowsocks.log ; exit ;;
 0) clear ; menu ;;
 x) exit ;;
-*) echo "salah tekan" ; sleep 1 ; m-ssws ;;
+*) echo "Input tidak tersedia!" ; sleep 1 ; m-ssws ;;
 esac
