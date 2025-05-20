@@ -31,7 +31,7 @@ wget -q -O /usr/bin/usernew https://raw.githubusercontent.com/MrZodoxVpython/Vir
 wget -q -O /usr/bin/trial https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/trial.sh
 
 echo "\e[1;32m Proses Download Script Slowdns.. \e[0m"
-wget https://raw.githubusercontent.com/SETANTAZVPN/AutoScriptXray/master/udp-custom/slowdns/slowdns.sh && chmod +x slowdns.sh && ./slowdns.sh
+wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/slowdns.sh && chmod +x slowdns.sh && ./slowdns.sh
 sleep 1
 
 echo "\e[1;32m Proses Download Script OpenVPN.. \e[0m"
