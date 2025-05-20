@@ -23,7 +23,7 @@ apt -y install squid
 wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf
 
-# // OpenVPN
+# // OpenVPN setup downloads
 sleep 1
 echo "\e[1;32m Proses Download OpenVPN.. \e[0m"
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/vpn.sh &&  chmod +x vpn.sh && ./vpn.sh
@@ -82,8 +82,8 @@ echo "   - Trojan gRPC              : 443" | tee -a log-install.txt
 echo "   - Shadowsocks gRPC         : 443" | tee -a log-install.txt
 echo ""
 echo "=============================Contact==============================" | tee -a log-install.txt
-echo "---------------------------BENJAMIN-DEV-----------------------------" | tee -a log-install.txt
-echo "---------------------------benjaminwickman-----------------------------" | tee -a log-install.txt
+echo "--------------------------BENJAMIN-DEV----------------------------" | tee -a log-install.txt
+echo "-------------------------benjaminwickman--------------------------" | tee -a log-install.txt
 echo "==================================================================" | tee -a log-install.txt
 echo -e ""
 echo ""
