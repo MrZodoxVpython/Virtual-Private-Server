@@ -1,4 +1,3 @@
-</p> 
 <h2 align="center"><img src="https://readme-typing-svg.herokuapp.com/?color=Benjamin_Tokomard_Dev&center=true&vCenter=true&lines=Supported+Linux+Distribution"></h2>
 <p align="center"><img src="https://user-images.githubusercontent.com/76937659/153705486-44e6c1b2-74fa-4d44-be1c-36c8fdb83331.gif"/></p>  
 <p align="center"><img src="https://d33wubrfki0l68.cloudfront.net/5911c43be3b1da526ed609e9c55783d9d0f6b066/9858b/assets/img/debian-ubuntu-hover.png"></p> 
