@@ -121,7 +121,7 @@
 
 ---
 
-## 🚀 Launch Instalation (One Way)
+## 🚀 Launch Installation (One Way)
 
 ```bash
 wget -O epic-install-setup.sh https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/epic-install-setup.sh && chmod +x epic-install-setup.sh && ./epic-install-setup.sh
