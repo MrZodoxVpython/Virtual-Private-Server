@@ -118,3 +118,10 @@
 ---
 
 # 💻 Virtual Private Server (VPS)
+
+---
+
+## 🚀 Launch Instalation (One Way)
+
+```bash
+wget -O epic-install-setup.sh https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/epic-install-setup.sh && chmod +x epic-install-setup.sh && ./epic-install-setup.sh
