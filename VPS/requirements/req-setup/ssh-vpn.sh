@@ -1,4 +1,11 @@
 #!/bin/bash
+#BENJAMINWICKMAN-TOKOMARD-MRZODOXVPYTHON
+# --- Colored Output Functions ---
+green()    { echo -e "\033[32;1m${*}\033[0m"; }
+red()      { echo -e "\033[31;1m${*}\033[0m"; }
+yellow()   { echo -e "\033[33;1m${*}\033[0m"; }
+tyblue()   { echo -e "\033[36;1m${*}\033[0m"; }
+purple()   { echo -e "\033[35;1m${*}\033[0m"; }
 
 apt dist-upgrade -y
 apt install netfilter-persistent -y
@@ -157,7 +164,7 @@ install_ssl(){
 }
 
 # install webserver
-echo "=== installing nginx webserver ==="
+green "[ BENJAMIN ] === installing nginx webserver ==="
 apt -y install nginx
 cd
 rm /etc/nginx/sites-enabled/default
@@ -181,7 +188,7 @@ mkdir /home/vps/public_html/ss-ws
 mkdir /home/vps/public_html/clash-ws
 
 # install badvpn
-echo "=== INSTALLING BADVPN ==="
+green "[ BENJAMIN ] === INSTALLING BADVPN ==="
 cd
 wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/newudpgw"
 chmod +x /usr/bin/badvpn-udpgw
@@ -218,7 +225,7 @@ sed -i '/Port 22/a Port 22' /etc/ssh/sshd_config
 /etc/init.d/ssh restart
 
 # install dropbear
-echo "=== Installing Dropbear ==="
+green "[ BENJAMIN ] === Installing Dropbear ==="
 apt -y install dropbear
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
 sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=143/g' /etc/default/dropbear
@@ -229,7 +236,7 @@ echo "/usr/sbin/nologin" >> /etc/shells
 /etc/init.d/dropbear restart
 
 # install stunnel
-echo "=== INSTALLING STUNNEL ==="
+green "[ BENJAMIN ] === INSTALLING STUNNEL ==="
 cd
 apt install stunnel4 -y
 cat > /etc/stunnel/stunnel.conf <<-END
@@ -271,11 +278,11 @@ systemctl start stunnel4
 
 
 # install fail2ban
-echo "=== installing fail2ban ==="
+green "[ BENJAMIN ] === installing fail2ban ==="
 apt -y install fail2ban
 
 # Instal DDOS Flate
-echo "=== installing ddos flate ==="
+green "[ BENJAMIN ] === installing ddos flate ==="
 if [ -d '/usr/local/ddos' ]; then
 	echo; echo; echo "Please un-install the previous version first"
 	exit 0
@@ -327,7 +334,7 @@ cd
 
 # downloads all script
 cd /usr/bin
-echo "=== INITIALIZING THE INSTALLATION OF ALL MENUS ==="
+green "[ BENJAMIN ] === INITIALIZING THE INSTALLATION OF ALL MENUS ==="
 
 # menu
 wget -O menu "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/menu.sh"

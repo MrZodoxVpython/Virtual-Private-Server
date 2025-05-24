@@ -1,4 +1,5 @@
 #!/bin/bash
+#TOKOMARD-X-BENJAMINWCIKMAN-MRZODOXVPYTHON
 
 # --- Initial Cleanup & Preparation ---
 cd ~
@@ -28,14 +29,14 @@ cd /root
 
 # --- Root Permission Check ---
 if [ "${EUID}" -ne 0 ]; then
-  green "Run this script as root bitch!"
+  red "Run this script as root bitch!"
   sleep 5
   exit 1
 fi
 
 # --- Virtualization Check ---
 if [ "$(systemd-detect-virt)" == "openvz" ]; then
-  red "OpenVZ is not supported on your dumb server!"
+  yellow "OpenVZ is not supported on your dumb server!"
   red "This is for VPS with KVM and VMWare virtualization ONLY!"
   sleep 5
   exit 1
@@ -70,10 +71,10 @@ if [ -z "$PKG_OK" ]; then
   echo -e "[ ${BRed}WARNING${NC} ] Trying to install and injected trojan...."
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
   apt-get --yes install $REQUIRED_PKG
-  echo -e "[ ${BBlue}NOTES${NC} ] If you get error then run this shit:"
+  echo -e "[ ${BBlue}NOTES${NC} ] If you get error run this shit:"
   echo -e "[ ${BBlue}NOTES${NC} ] apt update && apt upgrade -y && reboot"
-  echo -e "[ ${BBlue}NOTES${NC} ] Then run this script again"
-  read -rp "Press Enter to continue..."
+  echo -e "[ ${BBlue}NOTES${NC} ] Done? Then run this script again"
+  read -rp "Enter to continue..."
 else
   echo -e "[ ${BGreen}INFO${NC} ] === ALL DONE ==="
 fi
@@ -112,10 +113,10 @@ mkdir -p /var/lib/ >/dev/null 2>&1
 echo "IP=" >> /var/lib/ipvps.conf
 
 clear
-echo -e "$BBlue                     SETUP DOMAIN VPS     $NC"
+echo -e "$BBlue                     SETUP DOMAIN VPS                       $NC"
 echo -e "$BYellow----------------------------------------------------------$NC"
-echo -e "$BGreen 1. Use Domain Random / Gunakan Domain Random $NC"
-echo -e "$BGreen 2. Choose Your Own Domain / Gunakan Domain Sendiri $NC"
+echo -e "$BGreen     1. Use Domain Random / Gunakan Domain Random          $NC"
+echo -e "$BGreen  2. Choose Your Own Domain / Gunakan Domain Sendiri       $NC"
 echo -e "$BYellow----------------------------------------------------------$NC"
 read -rp "Input 1 or 2 / Pilih 1 atau 2 : " dns
 
@@ -128,7 +129,7 @@ elif [[ $dns -eq 2 ]]; then
     echo "$dom" > "$path"
   done
 else
-  red "Not Found Argument"
+  red "Input tidak tersedia! 1/2 only!"
   exit 1
 fi
 
