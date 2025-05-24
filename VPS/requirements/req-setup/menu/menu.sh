@@ -206,6 +206,8 @@ echo -e "\e[1;36m 8 \e[0m : Clear RAM Cache"
 echo -e "\e[1;36m 9 \e[0m : Reboot VPS"
 echo -e "\e[1;36m 10 \e[0m: Bot Panel"
 echo -e "\e[1;36m 11 \e[0m: Set Udp VPS"
+echo -e "\e[1;36m b \e[0m: Backup Account"
+echo -e "\e[1;36m r \e[0m: Restore Account"
 echo -e "\e[1;36m x \e[0m : Exit Script"
 echo -e ""
 echo -e "\e[1;33m -------------------------------------------------\e[0m"
@@ -232,6 +234,8 @@ case $opt in
 9) clear ; reboot ; /sbin/reboot ;;
 10) clear ; wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xolpanel.sh && chmod +x xolpanel.sh && ./xolpanel.sh ;;
 11) clear ; wget -qO- -O udp.sh "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/udp.sh" && chmod +x udp.sh && ./udp.sh ;;
+b) clear ; backup ;;
+r) clear ; restore ;;
 x) exit ;;
 *) echo "Input yang anda berikan tidak tersedia di script!" ; sleep 5 ; menu ;;
 esac
