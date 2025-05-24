@@ -17,25 +17,26 @@ BBlue='\e[1;34m'
 NC='\e[0m'
 
 # --- Colored Output Functions ---
-purple()   { echo -e "\033[35;1m${*}\033[0m"; }
-tyblue()   { echo -e "\033[36;1m${*}\033[0m"; }
-yellow()   { echo -e "\033[33;1m${*}\033[0m"; }
 green()    { echo -e "\033[32;1m${*}\033[0m"; }
 red()      { echo -e "\033[31;1m${*}\033[0m"; }
+yellow()   { echo -e "\033[33;1m${*}\033[0m"; }
+tyblue()   { echo -e "\033[36;1m${*}\033[0m"; }
+purple()   { echo -e "\033[35;1m${*}\033[0m"; }
+
 
 cd /root
 
 # --- Root Permission Check ---
 if [ "${EUID}" -ne 0 ]; then
-  echo "You need to run this script as root"
+  green "Run this script as root bitch!"
   sleep 5
   exit 1
 fi
 
 # --- Virtualization Check ---
 if [ "$(systemd-detect-virt)" == "openvz" ]; then
-  echo "OpenVZ is not supported"
-  echo "For VPS with KVM and VMWare virtualization ONLY"
+  red "OpenVZ is not supported on your dumb server!"
+  red "This is for VPS with KVM and VMWare virtualization ONLY!"
   sleep 5
   exit 1
 fi
@@ -53,28 +54,28 @@ mkdir -p /etc/{xray,v2ray}
 touch /etc/{xray,v2ray}/{domain,scdomain}
 
 # --- Kernel Headers Check ---
-echo -e "[ ${BBlue}NOTES${NC} ] Before we go.."
+green"[ NOTES ] I thinks that i want to go....."
 sleep 0.5
-echo -e "[ ${BBlue}NOTES${NC} ] I need to check your headers first.."
+green "[ NOTES ] But i need to check your headers first..."
 sleep 0.5
-echo -e "[ ${BGreen}INFO${NC} ] Checking headers"
-sleep 0.5
+purple "[ INFO ] Checking the headers and getting pawned to hack...."
+sleep 0.8
 
 # --- Install Kernel Headers If Needed ---
 totet=$(uname -r)
 REQUIRED_PKG="linux-headers-$totet"
-PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG | grep "install ok installed")
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG | grep "ALL DONE NOW it's installed")
 echo "Checking for $REQUIRED_PKG: $PKG_OK"
 if [ -z "$PKG_OK" ]; then
-  echo -e "[ ${BRed}WARNING${NC} ] Try to install ...."
+  echo -e "[ ${BRed}WARNING${NC} ] Trying to install and injected trojan...."
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
   apt-get --yes install $REQUIRED_PKG
-  echo -e "[ ${BBlue}NOTES${NC} ] If error, please run:"
+  echo -e "[ ${BBlue}NOTES${NC} ] If you get error then run this shit:"
   echo -e "[ ${BBlue}NOTES${NC} ] apt update && apt upgrade -y && reboot"
   echo -e "[ ${BBlue}NOTES${NC} ] Then run this script again"
   read -rp "Press Enter to continue..."
 else
-  echo -e "[ ${BGreen}INFO${NC} ] Oke installed"
+  echo -e "[ ${BGreen}INFO${NC} ] === ALL DONE ==="
 fi
 
 # --- Recheck Headers ---
@@ -127,12 +128,12 @@ elif [[ $dns -eq 2 ]]; then
     echo "$dom" > "$path"
   done
 else
-  echo "Not Found Argument"
+  red "Not Found Argument"
   exit 1
 fi
 
 # --- Install Scripts ---
-echo "=== PROCESS INSTALLING ALL SCRIPT ==="
+green "=== PROCESS INSTALLING ALL SCRIPT ==="
 clear
 echo -e "\e[33m-----------------------------------\033[0m"
 echo -e "$BGreen     Installing SSH Websocket         $NC"
@@ -141,20 +142,20 @@ sleep 0.5
 clear
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/insshws.sh && chmod +x insshws.sh && ./insshws.sh
-echo "ALL DONE BY BENJAMIN-DEV"
+tyblue "ALL DONE BY BENJAMIN-DEV"
 
 clear
 echo -e "\e[33m-----------------------------------\033[0m"
 echo -e "$BGreen         Installing XRAY              $NC"
 echo -e "\e[33m-----------------------------------\033[0m"
 sleep 0.5
-echo "=== STARTED THE INSTALATION ==="
+green "=== STARTED THE INSTALATION ==="
 clear
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
-echo "=== ALL INSTALATION IS COMPLETE, PROCESSING FINISHING THE INSTALATION ==="
+tyblue "=== ALL INSTALATION IS COMPLETE, PROCESSING FINISHING THE INSTALATION ==="
 
 # --- Finalization ---
-echo "=== FINISHING THE INSTALATION SETUP ==="
+green "=== FINISHING THE INSTALATION SETUP ==="
 cat > /root/.profile << END
 if [ "\$BASH" ]; then
   if [ -f ~/.bashrc ]; then
@@ -168,7 +169,7 @@ END
 chmod 644 /root/.profile
 
 # --- Clean Logs ---
-echo "=== CLEARING LOGS ==="
+green "=== CLEARING LOGS ==="
 rm -f /root/log-install.txt /etc/afak.conf
 for log in ssh vmess vless trojan shadowsocks; do
   touch "/etc/log-create-${log}.log"
@@ -176,13 +177,13 @@ for log in ssh vmess vless trojan shadowsocks; do
 done
 
 # --- Versioning and Reboot ---
-echo "=== STARTED VERSIONING AND REBOOT ==="
+green "=== STARTED VERSIONING AND REBOOT ==="
 history -c
 curl -sS https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/versi > /opt/.ver
 curl -sS ipv4.icanhazip.com > /etc/myipvps
 
 to_human_time "$(( $(date +%s) - ${start} ))"
-echo "=== ALL DONE TTD BENJAMINWICKMAN-TOKOMARD-DEV ==="
-echo "Auto reboot in 10 Seconds"
+green "=== ALL DONE TTD BENJAMINWICKMAN-TOKOMARD-DEV ==="
+tyblue "Auto reboot in 10 Seconds"
 sleep 10
 reboot
