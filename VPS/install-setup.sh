@@ -55,7 +55,7 @@ mkdir -p /etc/{xray,v2ray}
 touch /etc/{xray,v2ray}/{domain,scdomain}
 
 # --- Kernel Headers Check ---
-green"[ BENJAMIN ] I thinks that i want to go....."
+green "[ BENJAMIN ] I thinks that i want to go....."
 sleep 0.5
 green "[ BENJAMIN ] But i need to check your headers first..."
 sleep 0.5
