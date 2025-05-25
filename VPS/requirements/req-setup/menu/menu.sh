@@ -237,52 +237,75 @@ restore_via_bf_key_no_check() {
 
 
 # Tampilkan menu utama
+#!/bin/bash
+
 clear
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e "\e[1;34m                      VPS INFO                    \e[0m"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e "\e[1;32m OS            \e[0m: $OS_INFO"
-echo -e "\e[1;32m Uptime        \e[0m: $uptime"
-echo -e "\e[1;32m Public IP     \e[0m: $IPVPS"
-echo -e "\e[1;32m Country       \e[0m: $LOC"
-echo -e "\e[1;32m DOMAIN        \e[0m: $domain"
-echo -e "\e[1;32m DATE & TIME   \e[0m: $DATE2"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e "\e[1;34m                      RAM INFO                    \e[0m"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e ""
-echo -e "\e[1;32m RAM USED   \e[0m: $uram MB"
-echo -e "\e[1;32m RAM TOTAL  \e[0m: $tram MB"
-echo -e ""
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e "\e[1;34m                       MENU                       \e[0m"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e ""
-echo -e "\e[1;36m 1 \e[0m : Menu SSH"
-echo -e "\e[1;36m 2 \e[0m : Menu Vmess"
-echo -e "\e[1;36m 3 \e[0m : Menu Vless"
-echo -e "\e[1;36m 4 \e[0m : Menu Trojan"
-echo -e "\e[1;36m 5 \e[0m : Menu Shadowsocks"
-echo -e "\e[1;36m 6 \e[0m : Menu Setting"
-echo -e "\e[1;36m 7 \e[0m : Status Service"
-echo -e "\e[1;36m 8 \e[0m : Clear RAM Cache"
-echo -e "\e[1;36m 9 \e[0m : Reboot VPS"
-echo -e "\e[1;36m 10 \e[0m: Bot Panel"
-echo -e "\e[1;36m 11 \e[0m: Set Udp VPS"
-echo -e "\e[1;36m b \e[0m : Backup Account"
-echo -e "\e[1;36m r \e[0m : Restore Account"
-echo -e "\e[1;36m k \e[0m : Restore via Key/Kode"
-echo -e "\e[1;36m l \e[0m : Restore via Key/Kode non check"
-echo -e "\e[1;36m m \e[0m : Restore via Key/Kode brute force non check"
-echo -e "\e[1;36m x \e[0m : Exit Script"
-echo -e ""
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e "\e[1;32m Client Name \e[0m: $Name"
-echo -e "\e[1;32m Expired     \e[0m: $Exp"
-echo -e "\e[1;33m -------------------------------------------------\e[0m"
-echo -e ""
-echo -e "\e[1;36m -------------BENJAMIN-X-TOKOMARD-DEV-------------\e[0m"
-echo -e ""
+
+# Header ultra epic dengan ASCII art dan warna
+echo -e "\e[1;96m     ____  _____ _   _     _   _    __  __ ___ _   _   \e[0m"
+echo -e "\e[1;95m    | __ )| ____| \ | |   | | / \  |  \/  |_ _| \ | | \e[0m"
+echo -e "\e[1;92m    |  _ \|  _| |  \| |_  | |/ _ \ | |\/| || ||  \| | \e[0m"
+echo -e "\e[1;96m    | |_) | |___| |\  | |_| / ___ \| |  | || || |\  | \e[0m"
+echo -e "\e[1;96m    |____/|_____|_| \_|\___/_/   \_\_|  |_|___|_| \_| \e[0m"
+echo ""
+
+# VPS Info Box
+echo -e "\e[1;91m┌────────────────────────────────────────────────────────┐"
+echo -e "│    \e[1;0m     🔥🔥🔥 𝐕𝐏𝐒 𝐈𝐍𝐅𝐎 𝐁𝐘 𝐁𝐄𝐍𝐉𝐀𝐌𝐈𝐍-𝐃𝐄𝐕 🔥🔥🔥\e[1;91m         │"
+echo -e "├────────────────────────────────────────────────────────┤"              
+echo -e "│  \e[1;93mOS          :\e[0m $OS_INFO"
+echo -e "│  \e[1;93mUPTIME      :\e[0m $uptime"
+echo -e "│  \e[1;93mPUBLIC IP   :\e[0m $IPVPS"
+echo -e "│  \e[1;93mCOUNTRY     :\e[0m $LOC"
+echo -e "│  \e[1;93mDOMAIN      :\e[0m $domain"
+echo -e "│  \e[1;93mDATE & TIME :\e[0m $DATE2"
+echo -e "└────────────────────────────────────────────────────────┘"
+
+# RAM Info Box
+echo -e "\n\e[1;38;5;198m                   ⚔️  𝐑𝐀𝐌 𝐈𝐍𝐅𝐎  ⚔️\e[0m"
+echo -e "\e[1;91m╔════════════════════════════════════════════════════════╗\e[0m"
+echo -e "║  \e[1;96mRAM USED  :\e[0m ${uram} MB                                   ║"
+echo -e "║  \e[1;96mRAM TOTAL :\e[0m ${tram} MB                                   ║"
+echo -e "╚════════════════════════════════════════════════════════╝"
+
+# Main Menu Box
+echo ""
+echo -e "\e[1;38;5;198m                  ⚔️  𝐌𝐀𝐈𝐍 𝐌𝐄𝐍𝐔  ⚔️\e[0m"
+echo -e "\e[1;95m╔════════════════════════════════════════════════════════╗\e[0m"
+echo -e "║  \e[1;93m1\e[0m  : Menu SSH                                         ║"
+echo -e "║  \e[1;93m2\e[0m  : Menu Vmess                                       ║"
+echo -e "║  \e[1;93m3\e[0m  : Menu Vless                                       ║"
+echo -e "║  \e[1;93m4\e[0m  : Menu Trojan                                      ║"
+echo -e "║  \e[1;93m5\e[0m  : Menu Shadowsocks                                 ║"
+echo -e "║  \e[1;93m6\e[0m  : Menu Setting                                     ║"
+echo -e "║  \e[1;93m7\e[0m  : Status Service                                   ║"
+echo -e "║  \e[1;93m8\e[0m  : Clear RAM Cache                                  ║"
+echo -e "║  \e[1;93m9\e[0m  : Reboot VPS                                       ║"
+echo -e "║  \e[1;93m10\e[0m : Bot Panel                                        ║"
+echo -e "║  \e[1;93m11\e[0m : Set Udp VPS                                      ║"
+echo -e "║  \e[1;93mb\e[0m  : Backup Account                                   ║"
+echo -e "║  \e[1;93mr\e[0m  : Restore Account                                  ║"
+echo -e "║  \e[1;93mk\e[0m  : Restore via Key/Kode                             ║"
+echo -e "║  \e[1;93ml\e[0m  : Restore via Key/Kode non check                   ║"
+echo -e "║  \e[1;93mm\e[0m  : Restore via Key/Kode brute force non check       ║"
+echo -e "║  \e[1;93mx\e[0m  : Exit Script                                      ║"
+echo -e "╚════════════════════════════════════════════════════════╝"
+
+# User Info Box
+echo ""
+echo -e "\e[1;38;5;198m           ⚔️  𝐔𝐋𝐓𝐑𝐀 𝐄𝐏𝐈𝐂 𝐔𝐒𝐄𝐑 𝐈𝐍𝐅𝐎  ⚔️\e[0m"
+echo -e "\e[1;35m╔════════════════════════════════════════════════════════╗\e[0m"
+printf "║  \e[1;92mClient Name : %-43s\e[0m\n" "$Name"
+printf "║  \e[1;92mExpired     : %-43s\e[0m\n" "$Exp"
+echo -e "\e[1;35m╚════════════════════════════════════════════════════════╝\e[0m"
+
+
+# Footer ASCII art
+echo ""
+echo -e "\e[1;0m         --------𝐁𝐄𝐍𝐉𝐀𝐌𝐈𝐍-𝐗-𝐓𝐎𝐊𝐎𝐌𝐀𝐑𝐃-𝐃𝐄𝐕--------\e[0m"
+echo ""
+
+
 
 # Input menu
 read -p " Select menu :  "  benjaminwickman
