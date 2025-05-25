@@ -59,6 +59,7 @@ echo -e "Port gRPC      : ${tls}" | tee -a /etc/log-create-trojan.log
 echo -e "Key            : ${uuid}" | tee -a /etc/log-create-trojan.log
 echo -e "Path           : /trojan-ws" | tee -a /etc/log-create-trojan.log
 echo -e "ServiceName    : trojan-grpc" | tee -a /etc/log-create-trojan.log
+echo -e "Expired On     : $exp" | tee -a /etc/log-create-trojan.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-trojan.log
 echo -e "Link TLS       : ${trojanlink}" | tee -a /etc/log-create-trojan.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-trojan.log
@@ -66,9 +67,8 @@ echo -e "Link none TLS  : ${trojanlink2}" | tee -a /etc/log-create-trojan.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-trojan.log
 echo -e "Link gRPC      : ${trojanlink1}" | tee -a /etc/log-create-trojan.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-trojan.log
-echo -e "Expired On     : $exp" | tee -a /etc/log-create-trojan.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-trojan.log
 echo "" | tee -a /etc/log-create-trojan.log
 read -n 1 -s -r -p "Press any key to back on menu"
-echo -e "User : $user\nUUID : $uuid\nDomain : $domain\nTLS : $tls\nExpired : $exp\n------" >> /etc/log-create-trojan.log
+#echo -e "User : $user\nUUID : $uuid\nDomain : $domain\nTLS : $tls\nExpired : $exp\n------" >> /etc/log-create-trojan.log
 m-trojan
