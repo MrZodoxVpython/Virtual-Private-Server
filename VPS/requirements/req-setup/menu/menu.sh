@@ -175,6 +175,69 @@ if [ -z "$OS_INFO" ]; then
     OS_INFO="Unknown"
 fi
 
+# === Fungsi Restore via Key ===
+restore_via_key() {
+    clear
+    echo -e "\e[1;36m==== Restore Akun via KEY ====\e[0m"
+    read -rp "Masukkan KEY akun: " user_key
+    BACKUP_DIR="/root/backup-vpn/xray-clients"
+    FILE_JSON="$BACKUP_DIR/client-$user_key.json"
+
+    if [[ -f "$FILE_JSON" ]]; then
+        echo -e "\e[92mBackup ditemukan, sedang melakukan restore...\e[0m"
+
+        # Contoh: replace atau update config Xray dengan data client JSON ini
+        # Sesuaikan ini dengan cara restore yang benar di sistem kamu, ini contoh sederhana
+        cp "$FILE_JSON" /etc/xray/config.json
+
+        # Restart layanan xray supaya konfigurasi baru aktif
+        systemctl restart xray
+
+        echo -e "\e[92mRestore berhasil!\e[0m"
+        read -n1 -r -p "Tekan tombol apapun untuk kembali ke menu..."
+    else
+        echo -e "\e[91mKEY tidak valid atau file backup tidak ditemukan.\e[0m"
+        read -n1 -r -p "Tekan tombol apapun untuk kembali ke menu..."
+    fi
+}
+
+# Fungsi Restore via Key 2 (tanpa validasi)
+restore_via_key_no_check() {
+    clear
+    echo -e "\e[1;36m==== Restore Akun via KEY (Tanpa Validasi) ====\e[0m"
+    read -rp "Masukkan KEY akun: " user_key
+    BACKUP_DIR="/root/backup-vpn/xray-clients"
+    FILE_JSON="$BACKUP_DIR/client-$user_key.json"
+
+    echo -e "\e[93mLangsung mencoba restore tanpa validasi...\e[0m"
+
+    if cp "$FILE_JSON" /etc/xray/config.json 2>/dev/null; then
+        systemctl restart xray
+        echo -e "\e[92mRestore berhasil!\e[0m"
+    else
+        echo -e "\e[91mFile backup tidak ditemukan, restore gagal.\e[0m"
+    fi
+    read -n1 -r -p "Tekan tombol apapun untuk kembali ke menu..."
+}
+
+restore_via_bf_key_no_check() {
+    clear
+    echo -e "\e[1;36m==== Restore Akun via KEY (Tanpa Validasi) ====\e[0m"
+    read -rp "Masukkan KEY akun: " user_key
+
+    # Buat file config.json berisi key
+    echo -e "{\n  \"key\": \"$user_key\"\n}" > /etc/xray/config.json
+
+    # Restart layanan xray supaya konfigurasi baru aktif
+    systemctl restart xray
+
+    echo -e "\e[92mRestore berhasil dengan memasukkan key ke config.json!\e[0m"
+    read -n1 -r -p "Tekan tombol apapun untuk kembali ke menu..."
+}
+
+
+# Tampilkan menu utama
+clear
 echo -e "\e[1;33m -------------------------------------------------\e[0m"
 echo -e "\e[1;34m                      VPS INFO                    \e[0m"
 echo -e "\e[1;33m -------------------------------------------------\e[0m"
@@ -208,6 +271,9 @@ echo -e "\e[1;36m 10 \e[0m: Bot Panel"
 echo -e "\e[1;36m 11 \e[0m: Set Udp VPS"
 echo -e "\e[1;36m b \e[0m : Backup Account"
 echo -e "\e[1;36m r \e[0m : Restore Account"
+echo -e "\e[1;36m k \e[0m : Restore via Key/Kode"
+echo -e "\e[1;36m l \e[0m : Restore via Key/Kode non check"
+echo -e "\e[1;36m m \e[0m : Restore via Key/Kode brute force non check"
 echo -e "\e[1;36m x \e[0m : Exit Script"
 echo -e ""
 echo -e "\e[1;33m -------------------------------------------------\e[0m"
@@ -236,6 +302,9 @@ case $opt in
 11) clear ; wget -qO- -O udp.sh "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/udp.sh" && chmod +x udp.sh && ./udp.sh ;;
 b) clear ; backup ;;
 r) clear ; restore ;;
+k) clear ; restore_via_key ;;    # <-- Tambahan baru untuk restore via key
+l) clear ; restore_via_key_no_check ;;  # <-- Tambahan baru untuk restore via key non check
+m) clear ; restore_via_bf_key_no_check ;;  # <-- Tambahan baru untuk restore via key non check
 x) exit ;;
 *) echo "Input yang anda berikan tidak tersedia di script!" ; sleep 5 ; menu ;;
 esac
