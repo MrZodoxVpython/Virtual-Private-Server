@@ -1,4 +1,7 @@
 #!/bin/bash
+#BENJAMINWICKMAN
+#TOKOMARD
+
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 echo "Checking VPS"
 clear
@@ -13,7 +16,7 @@ echo -e " [\e[36m•4\e[0m] Delete Account Trojan "
 echo -e " [\e[36m•5\e[0m] Check User Login Trojan "
 echo -e " [\e[36m•6\e[0m] User list created Account "
 echo -e ""
-echo -e " [\e[31m•0\e[0m] \e[31mBACK TO MENU\033[0m"
+echo -e " [\e[36m•0\e[0m] \e[31mBACK TO MENU\033[0m"
 echo -e   ""
 echo -e   "Press x or [ Ctrl+C ] • To-Exit"
 echo ""
@@ -27,7 +30,7 @@ case $opt in
 3) clear ; renew-tr ;;
 4) clear ; del-tr ;;
 5) clear ; cek-tr ;;
-6) clear ; cat /etc/log-create-trojan.log ; exit ;;
+6) clear ; cat /etc/log-create-trojan.log ; echo "Anda punya waktu 15 detik sebelum script reload!" ; sleep 15 ; m-trojan ;;
 0) clear ; menu ;;
 x) exit ;;
 *) echo "Benjamin-notif: Input tidak tersedia!" ; sleep 1 ; m-trojan ;;
