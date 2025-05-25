@@ -196,7 +196,7 @@ kernelku=$(uname -r)
 
 # DNS PATCH
 #tipeos2=$(uname -m)
-Name=$"givpn"
+Name=$"Tokomard"
 Exp=$"Lifetime"
 # GETTING DOMAIN NAME
 Domen="$(cat /etc/xray/domain)"

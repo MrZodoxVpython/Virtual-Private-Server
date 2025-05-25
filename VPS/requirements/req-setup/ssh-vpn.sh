@@ -344,6 +344,8 @@ wget -O running "https://github.com/MrZodoxVpython/Virtual-Private-Server/blob/m
 wget -O clearcache "https://github.com/MrZodoxVpython/Virtual-Private-Server/blob/main/VPS/requirements/req-setup/menu/service/clear-cache/clearcache.sh"
 wget -O m-ssws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/xray/m-ssws.sh"
 wget -O m-trojan "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/xray/m-trojan.sh"
+wget -O backup "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/client/backup.sh"
+wget -O restore "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/client/restore.sh"
 
 # menu ssh ovpn
 wget -O m-sshovpn "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/ssh/m-sshovpn.sh"
