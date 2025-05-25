@@ -2,7 +2,7 @@
 echo "Starting VPN Data Restore..."
 
 # Unduh file backup terbaru dari Google Drive
-rclone copy gdrive:/Backup-VPN/backup-vpn.tar.gz /root/ --progress
+rclone copy GDRIVE:/Backup-VPN/backup-vpn.tar.gz /root/ --progress
 
 # Ekstrak isi file
 tar -xzf /root/backup-vpn.tar.gz -C /root/
