@@ -1,36 +1,46 @@
 #!/bin/bash
+#BenjaminWickman
+#MrZodoxVpython
+#Tokomard
+
+# --- Colored Output Functions ---
+green()    { echo -e "\033[32;1m${*}\033[0m"; }
+red()      { echo -e "\033[31;1m${*}\033[0m"; }
+yellow()   { echo -e "\033[33;1m${*}\033[0m"; }
+tyblue()   { echo -e "\033[36;1m${*}\033[0m"; }
+purple()   { echo -e "\033[35;1m${*}\033[0m"; }
 
 MYIP=$(wget -qO- ipv4.icanhazip.com);
-echo "Checking VPS"
+green "Checking VPS"
 clear
-echo -e "Checking the systems ...."
+yellow "Checking the systems ...."
 date
-echo "done step 1 ....."
+green "done step 1 ....."
 botak=$(cat /etc/xray/domain)
 echo "$botak" > /root/domain
 domain=$(cat /root/domain)
 sleep 0.5
 mkdir -p /etc/xray 
-echo -e "[ ${green}INFO${NC} ] Checking... "
+green "[ BENJAMIN ] Checking packages wants to install.... "
 apt install iptables iptables-persistent -y
 sleep 0.5
-echo -e "[ ${green}INFO$NC ] Setting ntpdate"
+green "[ BENJAMIN ] Setting ntpdate"
 ntpdate pool.ntp.org 
 timedatectl set-ntp true
 sleep 0.5
-echo -e "[ ${green}INFO$NC ] Enable chronyd"
+green "[ BENJAMIN ] Enable chronyd"
 systemctl enable chronyd
 systemctl restart chronyd
 sleep 0.5
-echo -e "[ ${green}INFO$NC ] Enable chrony"
+green "[ BENJAMIN ] Enable chrony"
 systemctl enable chrony
 systemctl restart chrony
 timedatectl set-timezone Asia/Jakarta
 sleep 0.5
-echo -e "[ ${green}INFO$NC ] Setting chrony tracking"
+green "[ BENJAMIN ] Setting chrony tracking"
 chronyc sourcestats -v
 chronyc tracking -v
-echo -e "[ ${green}INFO$NC ] Setting dll"
+green "[ BENJAMIN ] Setting dll"
 apt clean all && apt update
 apt install curl socat xz-utils wget apt-transport-https gnupg gnupg2 gnupg1 dnsutils lsb-release -y 
 apt install socat cron bash-completion ntpdate -y
@@ -41,9 +51,9 @@ apt install curl pwgen openssl netcat cron -y
 
 
 # install xray
-echo "=== PROCESSING INSTALL XRAY ==="
+green "=== PROCESSING INSTALL XRAY ==="
 sleep 0.5
-echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
+green "[ BENJAMIN ] Downloading & Installing xray core"
 domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
 chown www-data.www-data $domainSock_dir
 # Make Folder XRay
@@ -81,7 +91,7 @@ if ! grep -q 'ssl_renew.sh' /var/spool/cron/crontabs/root;then (crontab -l;echo 
 
 mkdir -p /home/vps/public_html
 
-echo "=== SETTING UUID AND JSON CONF ==="
+green "=== SETTING UUID AND JSON CONF ==="
 # set uuid
 uuid=$(cat /proc/sys/kernel/random/uuid)
 # xray config
@@ -374,10 +384,10 @@ Restart=on-abort
 [Install]
 WantedBy=multi-user.target
 EOF
-echo "=== ALL HAS BEEN COMPLETED ==="
+green "=== ALL HAS BEEN COMPLETED ==="
 
 #nginx config
-echo "=== CONFIGURING THE NGINX CONF ==="
+green "=== CONFIGURING THE NGINX CONF ==="
 cat >/etc/nginx/conf.d/xray.conf <<EOF
     server {
              listen 80;
@@ -488,22 +498,22 @@ sed -i '$ igrpc_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_pass grpc://127.0.0.1:30310;' /etc/nginx/conf.d/xray.conf
 sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 
-echo -e "$yell[SERVICE]$NC Restart All service"
+green "[ BENJAMIN-SERVICE ] Restart All service"
 systemctl daemon-reload
 sleep 0.5
-echo -e "[ ${green}ok${NC} ] Enable & restart xray "
+green "[ BENJAMIN ] Enable & restart xray "
 systemctl daemon-reload
 systemctl enable xray
 systemctl restart xray
 systemctl restart nginx
 systemctl enable runn
 systemctl restart runn
-echo "=== ALL HAS BEEN COMPLETED ==="
+green "=== ALL HAS BEEN COMPLETED ==="
 
 cd /usr/bin/
 
 # vmess
-echo "=== PROCESSING INSTALL THE VMESS SERVICE ==="
+yellow "[ BENJAMIN ]" green "=== PROCESSING INSTALL THE VMESS SERVICE ==="
 wget -O add-ws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/vmess/add-ws.sh" && chmod +x add-ws
 wget -O trialvmess "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/vmess/trialvmess.sh" && chmod +x trialvmess
 wget -O renew-ws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/vmess/renew-ws.sh" && chmod +x renew-ws
@@ -512,32 +522,32 @@ wget -O cek-ws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private
 echo "=== ALL DONE ==="
 
 # vless
-echo "=== PROCESSING INSTALL VLESS SERVICE ==="
+yellow "[ BENJAMIN ]" green "=== PROCESSING INSTALL VLESS SERVICE ==="
 wget -O add-vless "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/vless/add-vless.sh" && chmod +x add-vless
 wget -O trialvless "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/vless/trialvless.sh" && chmod +x trialvless
 wget -O renew-vless "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/vless/renew-vless.sh" && chmod +x renew-vless
 wget -O del-vless "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/vless/del-vless.sh" && chmod +x del-vless
 wget -O cek-vless "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/vless/cek-vless.sh" && chmod +x cek-vless
-echo "=== ALL DONE ==="
+green "=== ALL DONE ==="
 
 # trojan
-echo "==== PROCESSING INSTALL TROJAN SERVICE ==="
+yellow "[ BENJAMIN ]" green "=== PROCESSING INSTALL TROJAN SERVICE ==="
 wget -O add-tr "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/trojan/add-tr.sh" && chmod +x add-tr
 wget -O trialtrojan "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/trojan/trialtrojan.sh" && chmod +x trialtrojan
 wget -O del-tr "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/trojan/del-tr.sh" && chmod +x del-tr
 wget -O renew-tr "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/trojan/renew-tr.sh" && chmod +x renew-tr
 wget -O cek-tr "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/trojan/cek-tr.sh" && chmod +x cek-tr
-echo "=== ALL DONE ==="
+green "=== ALL DONE ==="
 
 # shadowsocks
-echo "=== PROCESSING INSTALL SHADOWSHOCKS SERVICE ==="
+yellow "[ BENJAMIN ]" green "=== PROCESSING INSTALL SHADOWSHOCKS SERVICE ==="
 wget -O add-ssws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/shadowshocks/add-ssws.sh" && chmod +x add-ssws
 wget -O trialssws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/shadowshocks/trialssws.sh" && chmod +x trialssws
 wget -O del-ssws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/shadowshocks/del-ssws.sh" && chmod +x del-ssws
 wget -O renew-ssws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray/shadowshocks/renew-ssws.sh" && chmod +x renew-ssws
-echo "=== ALL DONE ==="
+green "=== ALL DONE ==="
 
-echo "=== PROCESS FINISHING ALL INSTALATION ==="
+yellow "[ BENJAMIN ]" green " === PROCESS FINISHING ALL INSTALATION ==="
 sleep 0.5
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
@@ -547,6 +557,6 @@ mv /root/domain /etc/xray/
 if [ -f /root/scdomain ];then
 rm /root/scdomain > /dev/null 2>&1
 fi
-echo "=== ALL HAS BEEN COMPLETE! ==="
+yellow "[ BENJAMIN ]" tyblue "=== ALL HAS BEEN COMPLETE! ==="
 clear
-rm -f ins-xray.sh  
+rm -rf ins-xray.sh  
