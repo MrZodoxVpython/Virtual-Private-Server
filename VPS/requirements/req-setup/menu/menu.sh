@@ -285,10 +285,10 @@ echo -e "\e[1;36m -------------BENJAMIN-X-TOKOMARD-DEV-------------\e[0m"
 echo -e ""
 
 # Input menu
-read -p " Select menu :  "  opt
+read -p " Select menu :  "  benjaminwickman
 echo -e ""
 
-case $opt in
+case $benjaminwickman in
 1) clear ; m-sshovpn ;;
 2) clear ; m-vmess ;;
 3) clear ; m-vless ;;
