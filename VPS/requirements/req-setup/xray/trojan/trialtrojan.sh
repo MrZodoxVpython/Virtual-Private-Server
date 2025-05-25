@@ -38,5 +38,5 @@ echo -e "Expired On     : $exp"
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu"
-
+echo -e "User : $user\nUUID : $uuid\nDomain : $domain\nTLS : $tls\nExpired : $exp\n------" >> /etc/log-create-trojan.log
 m-trojan
