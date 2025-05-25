@@ -1,80 +1,103 @@
 #!/bin/bash
+#BENJAMIN-WICKMAN
+#TOKOMARD
+#MRZODOXVPYTHON
 
-# ==========================================
-# Color
-RED='\033[0;31m'
-NC='\033[0m'
-GREEN='\033[0;32m'
-ORANGE='\033[0;33m'
-BLUE='\033[0;34m'
-PURPLE='\033[0;35m'
-CYAN='\033[0;36m'
-LIGHT='\033[0;37m'
-# ==========================================
-# Getting
+# Konfigurasi warna
+RED='\033[0;31m'; NC='\033[0m'; GREEN='\033[0;32m'
+
+# Getting Ip Permit
 MYIP=$(wget -qO- ipv4.icanhazip.com)
-echo "Checking VPS..."
-IZIN=$(curl -s ipv4.icanhazip.com | grep "$MYIP")
-
-if [[ "$MYIP" == "$MYIP" ]]; then
-    echo -e "${NC}${GREEN}Permission Accepted...${NC}"
-else
-    echo -e "${NC}${RED}Permission Denied!${NC}"
+IZIN=$(curl -s https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ipmini | grep -w "$MYIP")
+if [[ -z "$IZIN" ]]; then
+    echo -e "${RED}Permission Denied!${NC}"
     exit 0
 fi
 
+echo -e "${GREEN}Permission Accepted...${NC}"
 clear
-> /tmp/other.txt
 
-# Ganti pencarian akun dari tag `#&#` ke `#!`
-data=($(grep -oP '^#!\s+\K\S+' /etc/xray/config.json))
+# Ambil daftar user Trojan unik dari config
+trojan_users=($(grep -oP '^#!\s+\K\S+' /etc/xray/config.json | sort -u))
+
+# Ambil waktu 10 menit lalu dalam format YYYY/MM/DD HH:MM:SS
+# Log format: 2025/05/25 10:51:30
+time_10min_ago=$(date -d '10 minutes ago' '+%Y/%m/%d %H:%M:%S')
 
 echo "-----------------------------------------"
 echo "---------=[ Trojan User Login ]=---------"
 echo "-----------------------------------------"
 
-for akun in "${data[@]}"; do
-    [[ -z "$akun" ]] && akun="tidakada"
+found_any=0
 
-    > /tmp/iptrojan.txt
+for user in "${trojan_users[@]}"; do
+    # Filter log untuk user + waktu > 10 menit lalu
+    user_lines=$(awk -v user="$user" -v start="$time_10min_ago" '
+    {
+        timestamp = $1 " " $2;
+        if (timestamp > start && $0 ~ "email: " user) print $0;
+    }' /var/log/xray/access.log | tail -40)
 
-    # Ambil IP yang sedang terhubung ke Xray
-    data2=($(netstat -anp | grep ESTABLISHED | grep tcp6 | grep xray | awk '{print $5}' | cut -d: -f1 | sort -u))
-
-    for ip in "${data2[@]}"; do
-        jum=$(grep -w "$akun" /var/log/xray/access.log | awk '{print $3}' | cut -d: -f1 | grep -w "$ip" | sort -u)
-
-        if [[ "$jum" == "$ip" ]]; then
-            echo "$jum" >> /tmp/iptrojan.txt
-        else
-            echo "$ip" >> /tmp/other.txt
-        fi
-
-        jum2=$(< /tmp/iptrojan.txt)
-        sed -i "/$jum2/d" /tmp/other.txt >/dev/null 2>&1
-    done
-
-    jum=$(< /tmp/iptrojan.txt)
-    if [[ -n "$jum" ]]; then
-        echo "user : $akun"
-        nl /tmp/iptrojan.txt
+    if [[ -n "$user_lines" ]]; then
+        found_any=1
+        echo "User : $user"
+        echo "$user_lines" | awk '
+        {
+            split($3, ip_port, ":");
+            client_ip = ip_port[1];
+            proto_field = $5;
+            split(proto_field, proto_parts, ":");
+            proto = proto_parts[1];
+            host = proto_parts[2];
+            port = proto_parts[3];
+            printf " %s - Protocol: %s - Host: %s - Port: %s\n", client_ip, proto, host, port;
+        }'
         echo "-----------------------------------------"
     fi
-
-    rm -f /tmp/iptrojan.txt
 done
 
-# Tampilkan IP selain dari akun yang dikenali
-oth=$(sort -u /tmp/other.txt | nl)
-echo "other"
-if [[ -n "$oth" ]]; then
-    echo "$oth"
-else
-    echo "Tidak ada IP lain yang aktif."
+if [[ $found_any -eq 0 ]]; then
+    echo "Tidak ada koneksi aktif yang ditemukan untuk user Trojan dalam 10 menit terakhir."
 fi
-echo "-----------------------------------------"
-echo ""
-rm -f /tmp/other.txt
 
+# Tampilkan IP lain yang tidak terkait Trojan
+all_ips=($(awk -v start="$time_10min_ago" '
+    {
+        timestamp = $1 " " $2;
+        if (timestamp > start) {
+            split($3,a,":");
+            print a[1];
+        }
+    }' /var/log/xray/access.log | sort -u))
+
+trojan_ips=($(awk -v start="$time_10min_ago" -v userlist="$(IFS=\|; echo "${trojan_users[*]}")" '
+    {
+        timestamp = $1 " " $2;
+        if (timestamp > start && $0 ~ "email: ("userlist")") {
+            split($3,a,":");
+            print a[1];
+        }
+    }' /var/log/xray/access.log | sort -u))
+
+other_ips=()
+for ip in "${all_ips[@]}"; do
+    skip=0
+    for tip in "${trojan_ips[@]}"; do
+        [[ "$ip" == "$tip" ]] && skip=1 && break
+    done
+    [[ $skip -eq 0 ]] && other_ips+=("$ip")
+done
+
+echo "Other IPs (tidak terkait user Trojan dalam 10 menit terakhir):"
+if [[ ${#other_ips[@]} -eq 0 ]]; then
+    echo "Tidak ada IP lain yang aktif."
+else
+    printf "%5s  %s\n" "No." "IP Address"
+    for i in "${!other_ips[@]}"; do
+        printf "%5d  %s\n" $((i+1)) "${other_ips[$i]}"
+    done
+fi
+
+echo "-----------------------------------------"
 read -n 1 -s -r -p "Press any key to back on menu"
 m-trojan
