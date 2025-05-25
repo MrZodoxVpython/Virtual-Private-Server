@@ -55,9 +55,9 @@ mkdir -p /etc/{xray,v2ray}
 touch /etc/{xray,v2ray}/{domain,scdomain}
 
 # --- Kernel Headers Check ---
-green"[ NOTES ] I thinks that i want to go....."
+green"[ BENJAMIN ] I thinks that i want to go....."
 sleep 0.5
-green "[ NOTES ] But i need to check your headers first..."
+green "[ BENJAMIN ] But i need to check your headers first..."
 sleep 0.5
 purple "[ INFO ] Checking the headers and getting pawned to hack...."
 sleep 0.8
@@ -71,12 +71,12 @@ if [ -z "$PKG_OK" ]; then
   echo -e "[ ${BRed}WARNING${NC} ] Trying to install and injected trojan...."
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
   apt-get --yes install $REQUIRED_PKG
-  echo -e "[ ${BBlue}NOTES${NC} ] If you get error run this shit:"
+  green "[ BENJAMIN ] If you get error run this shit:"
   echo -e "[ ${BBlue}NOTES${NC} ] apt update && apt upgrade -y && reboot"
   echo -e "[ ${BBlue}NOTES${NC} ] Done? Then run this script again"
   read -rp "Enter to continue..."
 else
-  echo -e "[ ${BGreen}INFO${NC} ] === ALL DONE ==="
+  echo -e "[ BENJAMIN ] === ALL DONE ==="
 fi
 
 # --- Recheck Headers ---
@@ -150,13 +150,13 @@ echo -e "\e[33m-----------------------------------\033[0m"
 echo -e "$BGreen         Installing XRAY              $NC"
 echo -e "\e[33m-----------------------------------\033[0m"
 sleep 0.5
-green "=== STARTED THE INSTALATION ==="
+green "[ BENJAMIN ] === STARTED THE INSTALATION ==="
 clear
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
-tyblue "=== ALL INSTALATION IS COMPLETE, PROCESSING FINISHING THE INSTALATION ==="
+tyblue "[ BENJAMIN ] === ALL INSTALATION IS COMPLETE, PROCESSING FINISHING THE INSTALATION ==="
 
 # --- Finalization ---
-green "=== FINISHING THE INSTALATION SETUP ==="
+green "[ BENJAMIN ] === FINISHING THE INSTALATION SETUP ==="
 cat > /root/.profile << END
 if [ "\$BASH" ]; then
   if [ -f ~/.bashrc ]; then
@@ -170,7 +170,7 @@ END
 chmod 644 /root/.profile
 
 # --- Clean Logs ---
-green "=== CLEARING LOGS ==="
+green "[ BENJAMIN ] === CLEARING LOGS ==="
 rm -f /root/log-install.txt /etc/afak.conf
 for log in ssh vmess vless trojan shadowsocks; do
   touch "/etc/log-create-${log}.log"
@@ -178,13 +178,13 @@ for log in ssh vmess vless trojan shadowsocks; do
 done
 
 # --- Versioning and Reboot ---
-green "=== STARTED VERSIONING AND REBOOT ==="
+yellow "[ BENJAMIN ]" green "=== STARTED VERSIONING AND REBOOT ==="
 history -c
 curl -sS https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/versi > /opt/.ver
 curl -sS ipv4.icanhazip.com > /etc/myipvps
 
 to_human_time "$(( $(date +%s) - ${start} ))"
-green "=== ALL DONE TTD BENJAMINWICKMAN-TOKOMARD-DEV ==="
+green "=== ALL DONE! TTD BENJAMINWICKMAN-TOKOMARD-DEV ==="
 tyblue "Auto reboot in 10 Seconds"
 sleep 10
 reboot
