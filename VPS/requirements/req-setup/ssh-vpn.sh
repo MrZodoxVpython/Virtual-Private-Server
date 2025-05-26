@@ -340,8 +340,8 @@ green "[ BENJAMIN ] === INITIALIZING THE INSTALLATION OF ALL MENUS ==="
 wget -O menu "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/menu.sh"
 wget -O m-vmess "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/xray/m-vmess.sh"
 wget -O m-vless "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/xray/m-vless.sh"
-wget -O running "https://github.com/MrZodoxVpython/Virtual-Private-Server/blob/main/VPS/requirements/req-setup/menu/service/check-service/running.sh"
-wget -O clearcache "https://github.com/MrZodoxVpython/Virtual-Private-Server/blob/main/VPS/requirements/req-setup/menu/service/clear-cache/clearcache.sh"
+wget -O running "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/service/check-service/running.sh"
+wget -O clearcache "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/service/clear-cache/clearcache.sh"
 wget -O m-ssws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/xray/m-ssws.sh"
 wget -O m-trojan "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/xray/m-trojan.sh"
 wget -O backup "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/client/backup.sh"
@@ -360,7 +360,7 @@ wget -O autokill "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Priva
 wget -O ceklim "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/ssh/ceklim.sh"
 wget -O tendang "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/ssh/tendang.sh"
 wget -O sshws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/ssh/sshws.sh"
-wget -O user-lock "https://github.com/MrZodoxVpython/Virtual-Private-Server/blob/main/VPS/requirements/req-setup/menu/ssh/user-lock.sh"
+wget -O user-lock "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/ssh/user-lock.sh"
 wget -O user-unlock "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/ssh/user-unlock.sh"
 
 # menu system
@@ -449,7 +449,7 @@ apt-get -y remove sendmail* >/dev/null 2>&1
 apt autoremove -y >/dev/null 2>&1
 
 # finishing
-echo "=== PROCESS FINISHING BY BENJAMIN-DEV ==="
+green "=== PROCESS FINISHING BY BENJAMIN-DEV ==="
 cd
 chown -R www-data:www-data /home/vps/public_html
 sleep 0.5
@@ -494,9 +494,9 @@ rm -f /root/key.pem
 rm -f /root/cert.pem
 rm -f /root/ssh-vpn.sh
 rm -f /root/bbr.sh
-echo "=== ALL DONE ==="
-echo "=== PROCESS TO CLEAR THE TASK ==="
+green "=== ALL DONE ==="
+green "=== PROCESS TO CLEAR THE TASK ==="
 # finihsing
 clear
-echo "=== SCRIPT ALL DONE ==="
-echo "=== BENJAMIN-TOKOMARD-DEV ==="
+yellow "=== SCRIPT ALL DONE ==="
+green "=== BENJAMIN-TOKOMARD-DEV ==="
