@@ -13,6 +13,11 @@ yellow()   { echo -e "\033[33;1m${*}\033[0m"; }
 tyblue()   { echo -e "\033[36;1m${*}\033[0m"; }
 purple()   { echo -e "\033[35;1m${*}\033[0m"; }
 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+
 # Getting Ip Permit
 MYIP=$(wget -qO- ipv4.icanhazip.com)
 IZIN=$(curl -s https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ipmini | grep -w "$MYIP")
