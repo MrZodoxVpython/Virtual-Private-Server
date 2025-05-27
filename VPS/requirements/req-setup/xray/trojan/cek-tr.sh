@@ -31,6 +31,7 @@ clear
 
 # Ambil waktu 10 menit lalu dalam format YYYY/MM/DD HH:MM:SS
 time_10min_ago=$(date -d '10 minutes ago' '+%Y/%m/%d %H:%M:%S')
+time_1min_ago=$(date -d '1 minutes ago' '+%Y/%m/%d %H:%M:%S')
 
 # Menampilkan daftar user beserta status aktif/tidak
 echo "-----------------------------------------"
@@ -42,7 +43,7 @@ while IFS= read -r user; do
     if [[ -n "$user" ]]; then
         trojan_users+=("$user")
         # Cek apakah user aktif (ada log dalam 10 menit terakhir)
-        is_active=$(awk -v user="$user" -v start="$time_10min_ago" '
+        is_active=$(awk -v user="$user" -v start="$time_1min_ago" '
         {
             timestamp = $1 " " $2;
             if (timestamp > start && $0 ~ "email: " user) {
@@ -56,7 +57,7 @@ while IFS= read -r user; do
             status="${RED}Tidak Aktif${NC}"
         fi
 
-        printf " %-20s [%s]\n" "$user" "$status"
+        echo -e " $(printf '%-20s' "$user") [$status]"
     fi
 done < <(grep -oP '^#!\s+\K\S+' /etc/xray/config.json | sort -u)
 
