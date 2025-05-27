@@ -6,13 +6,6 @@
 # Konfigurasi warna
 RED='\033[0;31m'; NC='\033[0m'; GREEN='\033[0;32m'
 
-# --- Colored Output Functions ---
-green()    { echo -e "\033[32;1m${*}\033[0m"; }
-red()      { echo -e "\033[31;1m${*}\033[0m"; }
-yellow()   { echo -e "\033[33;1m${*}\033[0m"; }
-tyblue()   { echo -e "\033[36;1m${*}\033[0m"; }
-purple()   { echo -e "\033[35;1m${*}\033[0m"; }
-
 # Getting Ip Permit
 MYIP=$(wget -qO- ipv4.icanhazip.com)
 IZIN=$(curl -s https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ipmini | grep -w "$MYIP")
@@ -24,36 +17,12 @@ fi
 echo -e "${GREEN}Permission Accepted...${NC}"
 clear
 
+# Ambil daftar user Trojan unik dari config
+trojan_users=($(grep -oP '^#!\s+\K\S+' /etc/xray/config.json | sort -u))
+
 # Ambil waktu 10 menit lalu dalam format YYYY/MM/DD HH:MM:SS
+# Log format: 2025/05/25 10:51:30
 time_10min_ago=$(date -d '10 minutes ago' '+%Y/%m/%d %H:%M:%S')
-
-# Menampilkan daftar user beserta status aktif/tidak
-echo "-----------------------------------------"
-echo "-----------=[ Daftar User ]=-------------"
-echo "-----------------------------------------"
-
-trojan_users=()
-while IFS= read -r user; do
-    if [[ -n "$user" ]]; then
-        trojan_users+=("$user")
-        # Cek apakah user aktif (ada log dalam 10 menit terakhir)
-        is_active=$(awk -v user="$user" -v start="$time_10min_ago" '
-        {
-            timestamp = $1 " " $2;
-            if (timestamp > start && $0 ~ "email: " user) {
-                print "yes"; exit;
-            }
-        }' /var/log/xray/access.log)
-
-        if [[ "$is_active" == "yes" ]]; then
-            status="${GREEN}Aktif${NC}"
-        else
-            status="${RED}Tidak Aktif${NC}"
-        fi
-
-        printf " %-20s [%s]\n" "$user" "$status"
-    fi
-done < <(grep -oP '^#!\s+\K\S+' /etc/xray/config.json | sort -u)
 
 echo "-----------------------------------------"
 echo "---------=[ Trojan User Login ]=---------"
@@ -130,16 +99,5 @@ else
 fi
 
 echo "-----------------------------------------"
-echo ""
-echo "Lihat access.log Xray secara real-time?"
-echo "1) Ya, buka dengan less"
-read -n 1 -s -r -p "Pilih [1] or press any key untuk kembali ke menu: " choice
-
-if [[ "$choice" == "1" ]]; then
-    echo ""
-    echo -e "${GREEN}Membuka log: Tekan Ctrl+C untuk berhenti, lalu tekan q untuk kembali ke menu.${NC}"
-    sleep 5
-    less +F /var/log/xray/access.log
-fi
-
+read -n 1 -s -r -p "Press any key to back on menu"
 m-trojan
