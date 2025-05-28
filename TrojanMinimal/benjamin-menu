@@ -31,7 +31,7 @@ case $benjamin_developer in
 4) clear ; hapus-trojan ;;
 5) clear ; cek-trojan ;;
 6) clear ; cat /etc/log-create-trojan.log ; echo "Anda punya waktu 15 detik sebelum script reload!" ; sleep 15 ; m-trojan ;;
-0) clear ; menu ;;
+0) clear ; benjamin-menu ;;
 x) exit ;;
 *) echo "Benjamin-notif: Input tidak tersedia!" ; sleep 1 ; m-trojan ;;
 esac
