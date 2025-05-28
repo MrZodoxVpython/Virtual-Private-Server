@@ -1,0 +1,37 @@
+#!/bin/bash
+#BENJAMINWICKMAN
+#TOKOMARD
+
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+echo "Checking VPS"
+clear
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\E[0;100;33m      • TROJAN CREATOR •          \E[0m"
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+echo -e " [\e[36m•1\e[0m] Buat Akun "
+echo -e " [\e[36m•2\e[0m] Buat Trial "
+echo -e " [\e[36m•3\e[0m] Perbarui Akun "
+echo -e " [\e[36m•4\e[0m] Hapus Akun "
+echo -e " [\e[36m•5\e[0m] Cek Pengguna Akun"
+echo -e " [\e[36m•6\e[0m] Daftar Pembuatan Akun "
+echo -e ""
+echo -e " [\e[36m•0\e[0m] \e[31mBACK TO MENU\033[0m"
+echo -e   ""
+echo -e   "Press x or [ Ctrl+C ] • To-Exit"
+echo ""
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+read -p " Select menu : " benjamin_developer
+echo -e ""
+case $benjamin_developer in
+1) clear ; buat-trojan ;;
+2) clear ; percobaan-trojan ;;
+3) clear ; perbarui-trojan ;;
+4) clear ; hapus-trojan ;;
+5) clear ; cek-trojan ;;
+6) clear ; cat /etc/log-create-trojan.log ; echo "Anda punya waktu 15 detik sebelum script reload!" ; sleep 15 ; m-trojan ;;
+0) clear ; menu ;;
+x) exit ;;
+*) echo "Benjamin-notif: Input tidak tersedia!" ; sleep 1 ; m-trojan ;;
+esac
