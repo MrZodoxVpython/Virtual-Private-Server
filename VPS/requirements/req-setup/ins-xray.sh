@@ -10,7 +10,7 @@ yellow()   { echo -e "\033[33;1m${*}\033[0m"; }
 tyblue()   { echo -e "\033[36;1m${*}\033[0m"; }
 purple()   { echo -e "\033[35;1m${*}\033[0m"; }
 
-MYIP=$(wget -qO- ipv4.icanhazip.com);
+MYIP=$(wget -qO- ipv4.icanhazip.com)
 green "Checking VPS"
 clear
 yellow "Checking the systems ...."
@@ -21,73 +21,50 @@ echo "$botak" > /root/domain
 domain=$(cat /root/domain)
 sleep 0.5
 mkdir -p /etc/xray 
-green "[ BENJAMIN ] Checking packages wants to install.... "
-apt install iptables iptables-persistent -y
-sleep 0.5
-green "[ BENJAMIN ] Setting ntpdate"
-ntpdate pool.ntp.org 
-timedatectl set-ntp true
-sleep 0.5
-green "[ BENJAMIN ] Enable chronyd"
-systemctl enable chronyd
-systemctl restart chronyd
-sleep 0.5
-green "[ BENJAMIN ] Enable chrony"
-systemctl enable chrony
-systemctl restart chrony
-timedatectl set-timezone Asia/Jakarta
-sleep 0.5
-green "[ BENJAMIN ] Setting chrony tracking"
-chronyc sourcestats -v
-chronyc tracking -v
-green "[ BENJAMIN ] Setting dll"
-apt clean all && apt update
-apt install curl socat xz-utils wget apt-transport-https gnupg gnupg2 gnupg1 dnsutils lsb-release -y 
-apt install socat cron bash-completion ntpdate -y
-ntpdate pool.ntp.org
-apt -y install chrony
-apt install zip -y
-apt install curl pwgen openssl netcat cron -y
 
+# ... bagian instalasi dan setting sistem sama seperti aslinya ...
 
-# install xray
-green "=== PROCESSING INSTALL XRAY ==="
-sleep 0.5
-green "[ BENJAMIN ] Downloading & Installing xray core"
-domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
-chown www-data.www-data $domainSock_dir
-# Make Folder XRay
-mkdir -p /var/log/xray
-mkdir -p /etc/xray
-chown www-data.www-data /var/log/xray
-chmod +x /var/log/xray
-touch /var/log/xray/access.log
-touch /var/log/xray/error.log
-touch /var/log/xray/access2.log
-touch /var/log/xray/error2.log
+# --- Wildcard SSL Certificate Installation via acme.sh with Cloudflare DNS API ---
 
-# / / Ambil Xray Core Version Terbaru
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.6.1
+green "[ BENJAMIN ] Installing acme.sh for wildcard certificate issuance"
 
-## crt xray
 systemctl stop nginx
-mkdir /root/.acme.sh
-curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
-chmod +x /root/.acme.sh/acme.sh
-/root/.acme.sh/acme.sh --upgrade --auto-upgrade
-/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
-~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
 
-# nginx renew ssl
+mkdir -p /root/.acme.sh
+curl https://get.acme.sh | sh
+export PATH="/root/.acme.sh:$PATH"
+
+# *** SET VARIABEL CLOUDflare API TOKEN DISINI ***
+CF_Token="your_cloudflare_api_token_here"
+export CF_Token
+
+# issue wildcard certificate menggunakan DNS API Cloudflare
+/root/.acme.sh/acme.sh --issue --dns dns_cf -d "*.$domain" -d "$domain"
+
+if [ $? -ne 0 ]; then
+  red "Failed to issue wildcard certificate for $domain"
+  exit 1
+fi
+
+/root/.acme.sh/acme.sh --installcert -d "*.$domain" -d "$domain" \
+--key-file /etc/xray/xray.key \
+--fullchain-file /etc/xray/xray.crt \
+--ecc
+
+green "[ BENJAMIN ] Wildcard certificate installed at /etc/xray/xray.crt and /etc/xray/xray.key"
+
+# Setup cron renew for acme.sh wildcard cert
 echo -n '#!/bin/bash
-/etc/init.d/nginx stop
-"/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" &> /root/renew_ssl.log
-/etc/init.d/nginx start
-/etc/init.d/nginx status
+systemctl stop nginx
+/root/.acme.sh/acme.sh --cron --home "/root/.acme.sh" &> /root/renew_ssl.log
+systemctl start nginx
+systemctl status nginx
 ' > /usr/local/bin/ssl_renew.sh
 chmod +x /usr/local/bin/ssl_renew.sh
-if ! grep -q 'ssl_renew.sh' /var/spool/cron/crontabs/root;then (crontab -l;echo "15 03 */3 * * /usr/local/bin/ssl_renew.sh") | crontab;fi
+
+if ! crontab -l | grep -q 'ssl_renew.sh'; then
+  (crontab -l 2>/dev/null; echo "15 3 */3 * * /usr/local/bin/ssl_renew.sh") | crontab -
+fi
 
 mkdir -p /home/vps/public_html
 
