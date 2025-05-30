@@ -35,7 +35,7 @@ curl https://get.acme.sh | sh
 export PATH="/root/.acme.sh:$PATH"
 
 # *** SET VARIABEL CLOUDflare API TOKEN DISINI ***
-CF_Token="your_cloudflare_api_token_here"
+CF_Token="v-twyDjZZiUNsu9WXxt5uaYrQC4u0gIV6cFUl9p8"
 export CF_Token
 
 # issue wildcard certificate menggunakan DNS API Cloudflare

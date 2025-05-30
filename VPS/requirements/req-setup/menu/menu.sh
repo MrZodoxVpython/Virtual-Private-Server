@@ -119,15 +119,24 @@ LIGHT='\033[0;37m'
 domain=$(cat /etc/xray/domain)
 
 # Status TLS
-modifyTime=$(stat $HOME/.acme.sh/${domain}_ecc/${domain}.key | sed -n '7,6p' | awk '{print $2" "$3" "$4" "$5}')
-modifyTime1=$(date +%s -d "${modifyTime}")
-currentTime=$(date +%s)
-stampDiff=$(expr ${currentTime} - ${modifyTime1})
-days=$(expr ${stampDiff} / 86400)
-remainingDays=$(expr 90 - ${days})
-tlsStatus=${remainingDays}
-if [[ ${remainingDays} -le 0 ]]; then
-    tlsStatus="expired"
+cert_dir=$(find $HOME/.acme.sh -type d -name "*_ecc" | grep "vpn-premium.tokomard.store" | head -n1)
+key_file=$(find "$cert_dir" -name "*.key" | head -n1)
+
+if [[ -f "$key_file" ]]; then
+    modifyTime=$(stat "$key_file" | awk 'NR==7 {print $2" "$3" "$4" "$5}')
+    modifyTime1=$(date +%s -d "${modifyTime}")
+    currentTime=$(date +%s)
+    stampDiff=$((currentTime - modifyTime1))
+    days=$((stampDiff / 86400))
+    remainingDays=$((90 - days))
+
+    if [[ $remainingDays -le 0 ]]; then
+        tlsStatus="expired"
+    else
+        tlsStatus=$remainingDays
+    fi
+else
+    tlsStatus="not found"
 fi
 
 # Uptime
