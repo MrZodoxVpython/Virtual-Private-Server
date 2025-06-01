@@ -184,52 +184,8 @@ if [ -z "$OS_INFO" ]; then
     OS_INFO="Unknown"
 fi
 
-# === Fungsi Restore via Key ===
-restore_via_key() {
-    clear
-    echo -e "\e[1;36m==== Restore Akun via KEY ====\e[0m"
-    read -rp "Masukkan KEY akun: " user_key
-    BACKUP_DIR="/root/backup-vpn/xray-clients"
-    FILE_JSON="$BACKUP_DIR/client-$user_key.json"
-
-    if [[ -f "$FILE_JSON" ]]; then
-        echo -e "\e[92mBackup ditemukan, sedang melakukan restore...\e[0m"
-
-        # Contoh: replace atau update config Xray dengan data client JSON ini
-        # Sesuaikan ini dengan cara restore yang benar di sistem kamu, ini contoh sederhana
-        cp "$FILE_JSON" /etc/xray/config.json
-
-        # Restart layanan xray supaya konfigurasi baru aktif
-        systemctl restart xray
-
-        echo -e "\e[92mRestore berhasil!\e[0m"
-        read -n1 -r -p "Tekan tombol apapun untuk kembali ke menu..."
-    else
-        echo -e "\e[91mKEY tidak valid atau file backup tidak ditemukan.\e[0m"
-        read -n1 -r -p "Tekan tombol apapun untuk kembali ke menu..."
-    fi
-}
-
-# Fungsi Restore via Key 2 (tanpa validasi)
-restore_via_key_no_check() {
-    clear
-    echo -e "\e[1;36m==== Restore Akun via KEY (Tanpa Validasi) ====\e[0m"
-    read -rp "Masukkan KEY akun: " user_key
-    BACKUP_DIR="/root/backup-vpn/xray-clients"
-    FILE_JSON="$BACKUP_DIR/client-$user_key.json"
-
-    echo -e "\e[93mLangsung mencoba restore tanpa validasi...\e[0m"
-
-    if cp "$FILE_JSON" /etc/xray/config.json 2>/dev/null; then
-        systemctl restart xray
-        echo -e "\e[92mRestore berhasil!\e[0m"
-    else
-        echo -e "\e[91mFile backup tidak ditemukan, restore gagal.\e[0m"
-    fi
-    read -n1 -r -p "Tekan tombol apapun untuk kembali ke menu..."
-}
-
-restore_via_bf_key_no_check() {
+# === Fungsi Restore via Key === #
+    restore_via_key() {
     clear
     echo -e "\e[1;36m==== Restore Akun via KEY (Tanpa Validasi) ====\e[0m"
     read -rp "Masukkan KEY akun: " user_key
@@ -251,7 +207,7 @@ restore_via_bf_key_no_check() {
 clear
 
 # Header ultra epic dengan ASCII art dan warna
-echo -e "\e[1;96m     ____  _____ _   _     _   _    __  __ ___ _   _   \e[0m"
+echo -e "\e[1;96m     ____  _____ _   _     _   _    __  __ ___ _   _  \e[0m"
 echo -e "\e[1;95m    | __ )| ____| \ | |   | | / \  |  \/  |_ _| \ | | \e[0m"
 echo -e "\e[1;92m    |  _ \|  _| |  \| |_  | |/ _ \ | |\/| || ||  \| | \e[0m"
 echo -e "\e[1;96m    | |_) | |___| |\  | |_| / ___ \| |  | || || |\  | \e[0m"
@@ -335,8 +291,6 @@ case $benjaminwickman in
 b) clear ; backup ;;
 r) clear ; restore ;;
 k) clear ; restore_via_key ;;    # <-- Tambahan baru untuk restore via key
-l) clear ; restore_via_key_no_check ;;  # <-- Tambahan baru untuk restore via key non check
-m) clear ; restore_via_bf_key_no_check ;;  # <-- Tambahan baru untuk restore via key non check
 x) exit ;;
 *) echo "Input yang anda berikan tidak tersedia di script!" ; sleep 5 ; menu ;;
 esac
