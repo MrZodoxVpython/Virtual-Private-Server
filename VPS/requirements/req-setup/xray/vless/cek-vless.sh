@@ -1,64 +1,106 @@
 #!/bin/bash
-# ==========================================
-# Color
+#===================++++===================#
+# AUTHOR    : BENJAMIN.WICKMAN
+# TELEGRAM  : MrZodoxVpython
+# DISCORD   : benjaminwickman
+# INSTA     : benjamin.wickman
+# SUPPORTER : TOKOMARD
+#===================++++===================#
+# Warna output
+GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
-GREEN='\033[0;32m'
-ORANGE='\033[0;33m'
-BLUE='\033[0;34m'
-PURPLE='\033[0;35m'
-CYAN='\033[0;36m'
-LIGHT='\033[0;37m'
-# ==========================================
-# Getting
-MYIP=$(wget -qO- ipv4.icanhazip.com);
-echo "Checking VPS"
-IZIN=$( curl ipv4.icanhazip.com | grep $MYIP )
-if [ $MYIP = $MYIP ]; then
-echo -e "${NC}${GREEN}Permission Accepted...${NC}"
-else
-echo -e "${NC}${RED}Permission Denied!${NC}";
-exit 0
+
+# Cek permission IP
+MYIP=$(wget -qO- ipv4.icanhazip.com)
+IZIN=$(curl -s https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ipmini | grep -w "$MYIP")
+if [[ -z "$IZIN" ]]; then
+    echo -e "${RED}Permission Denied!${NC}"
+    exit 0
 fi
+
+echo -e "${GREEN}Permission Accepted...${NC}"
 clear
-echo -n > /tmp/other.txt
-data=( `cat /etc/xray/config.json | grep '^####' | cut -d ' ' -f 2`);
-echo "----------------------------------------";
-echo "---------=[ Vless User Login ]=---------";
-echo "----------------------------------------";
-for akun in "${data[@]}"
-do
-if [[ -z "$akun" ]]; then
-akun="tidakada"
-fi
-echo -n > /tmp/ipvless.txt
-data2=( `netstat -anp | grep ESTABLISHED | grep tcp6 | grep xray | awk '{print $5}' | cut -d: -f1 | sort | uniq`);
-for ip in "${data2[@]}"
-do
-jum=$(cat /var/log/xray/access.log | grep -w $akun | awk '{print $3}' | cut -d: -f1 | grep -w $ip | sort | uniq)
-if [[ "$jum" = "$ip" ]]; then
-echo "$jum" >> /tmp/ipvless.txt
-else
-echo "$ip" >> /tmp/other.txt
-fi
-jum2=$(cat /tmp/ipvless.txt)
-sed -i "/$jum2/d" /tmp/other.txt > /dev/null 2>&1
+
+# Waktu sekarang dikurangi 10 dan 1 menit (format YYYY/MM/DD HH:MM:SS tanpa mikrodetik)
+time_10min_ago=$(date -d '10 minutes ago' '+%Y/%m/%d %H:%M:%S')
+time_1min_ago=$(date -d '1 minutes ago' '+%Y/%m/%d %H:%M:%S')
+
+echo "-----------------------------------------"
+echo "----------=[ User VLESS Aktif ]=----------"
+echo "-----------------------------------------"
+
+vless_users=()
+
+# Ambil list user VLESS dari config.json (tag #& username)
+while IFS= read -r user; do
+    if [[ -n "$user" ]]; then
+        vless_users+=("$user")
+        # Cek aktif dalam 1 menit terakhir dengan hilangkan mikrodetik di log
+        is_active=$(awk -v user="$user" -v start="$time_1min_ago" '
+        {
+            split($2, t, ".")
+            timestamp = $1 " " t[1]
+            if (timestamp > start && $0 ~ "email: " user) {
+                print "yes"; exit
+            }
+        }' /var/log/xray/access.log)
+
+        if [[ "$is_active" == "yes" ]]; then
+            status="${GREEN}Aktif${NC}"
+        else
+            status="${RED}Tidak Aktif${NC}"
+        fi
+
+        echo -e " $(printf '%-20s' "$user") [$status]"
+    fi
+done < <(grep -oP '^#&\s+\K\S+' /etc/xray/config.json | sort -u)
+
+echo "-----------------------------------------"
+echo "------=[ Detail Login User VLESS ]=-------"
+echo "-----------------------------------------"
+
+found_any=0
+
+for user in "${vless_users[@]}"; do
+    # Ambil log koneksi user dalam 10 menit terakhir, hilangkan mikrodetik
+    user_lines=$(awk -v user="$user" -v start="$time_10min_ago" '
+    {
+        split($2, t, ".")
+        timestamp = $1 " " t[1]
+        if (timestamp > start && $0 ~ "email: " user) print $0
+    }' /var/log/xray/access.log | tail -40)
+
+    if [[ -n "$user_lines" ]]; then
+        found_any=1
+        echo "User : $user"
+        echo "$user_lines" | awk '
+        {
+            split($3, ip_port, ":");
+            client_ip = ip_port[1];
+            proto_field = $5;
+            split(proto_field, proto_parts, ":");
+            proto = proto_parts[1];
+            host = proto_parts[2];
+            port = proto_parts[3];
+            printf " %s - Protocol: %s - Host: %s - Port: %s\n", client_ip, proto, host, port;
+        }'
+        echo "-----------------------------------------"
+    fi
 done
-jum=$(cat /tmp/ipvless.txt)
-if [[ -z "$jum" ]]; then
-echo > /dev/null
-else
-jum2=$(cat /tmp/ipvless.txt | nl)
-echo "user : $akun";
-echo "$jum2";
-echo "----------------------------------------"
+
+if [[ $found_any -eq 0 ]]; then
+    echo "Tidak ada koneksi aktif yang ditemukan untuk user VLESS dalam 10 menit terakhir."
 fi
-rm -rf /tmp/ipvless.txt
-done
-oth=$(cat /tmp/other.txt | sort | uniq | nl)
-echo "other";
-echo "$oth";
-echo "----------------------------------------"
-rm -rf /tmp/other.txt
-read -n 1 -s -r -p "Press any key to back on menu"
-m-vless
+
+echo ""
+echo "Lihat access.log Xray secara real-time?"
+echo "1) Ya, buka dengan less"
+read -n 1 -s -r -p "Pilih [1] atau tekan tombol lain untuk keluar: " choice
+
+if [[ "$choice" == "1" ]]; then
+    echo ""
+    echo -e "${GREEN}Membuka log: Tekan Ctrl+C untuk berhenti, lalu tekan q untuk kembali ke menu.${NC}"
+    sleep 2
+    less +F /var/log/xray/access.log
+fi
