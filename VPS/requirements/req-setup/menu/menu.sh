@@ -251,8 +251,6 @@ echo -e "║  \e[1;93m11\e[0m : Set Udp VPS                                     
 echo -e "║  \e[1;93mb\e[0m  : Backup Account                                   ║"
 echo -e "║  \e[1;93mr\e[0m  : Restore Account                                  ║"
 echo -e "║  \e[1;93mk\e[0m  : Restore via Key/Kode                             ║"
-echo -e "║  \e[1;93ml\e[0m  : Restore via Key/Kode non check                   ║"
-echo -e "║  \e[1;93mm\e[0m  : Restore via Key/Kode brute force non check       ║"
 echo -e "║  \e[1;93mx\e[0m  : Exit Script                                      ║"
 echo -e "╚════════════════════════════════════════════════════════╝"
 
