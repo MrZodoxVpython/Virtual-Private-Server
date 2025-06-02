@@ -1,8 +1,11 @@
 #!/bin/bash
-#BENJAMIN-WICKMAN
-#TOKOMARD
-#MRZODOXVPYTHON
-
+#===================++++===================#
+# AUTHOR    : BENJAMIN.WICKMAN
+# TELEGRAM  : MrZodoxVpython
+# DISCORD   : benjaminwickman
+# INSTA     : benjamin.wickman
+# SUPPORTER : TOKOMARD
+#===================++++===================#
 # Konfigurasi warna
 RED='\033[0;31m'; NC='\033[0m'; GREEN='\033[0;32m'
 
