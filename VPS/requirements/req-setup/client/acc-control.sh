@@ -368,7 +368,8 @@ install_cronjob() {
   echo "Memasang cron job auto-lock di /etc/cron.d/auto-lock"
   cat <<EOF > "$CRON_FILE"
 # Auto-lock Xray VPN accounts at midnight every day
-0 0 * * * root /etc/xray/auto-lock.sh
+0 0 * * * root /etc/xray/auto-locked.sh >> /var/log/auto-lock.log 2>&1 
+#0 0 * * * root /etc/xray/auto-lock.sh
 EOF
   chmod 644 "$CRON_FILE"
   echo "✅ Cron job terpasang."
