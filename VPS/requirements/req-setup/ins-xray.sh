@@ -487,6 +487,12 @@ systemctl enable runn
 systemctl restart runn
 green "=== ALL HAS BEEN COMPLETED ==="
 
+cd
+
+yellow "[ BENJAMIN ] === PROCESSING INSTALL ACCOUNT CONTROLS ==="
+wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/client/acc-control.sh -O /etc/xray/auto-lock.sh && chmod +x /etc/xray/auto-lock.sh
+green "=== ACCOUNT CONTROLS INSTALLED ==="
+
 cd /usr/bin/
 
 # vmess
