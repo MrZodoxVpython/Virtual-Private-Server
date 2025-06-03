@@ -337,6 +337,7 @@ echo -e "║  \e[1;93m11\e[0m : Set Udp VPS                                     
 echo -e "║  \e[1;93mb\e[0m  : Backup Account                                   ║"
 echo -e "║  \e[1;93mr\e[0m  : Restore Account                                  ║"
 echo -e "║  \e[1;93mk\e[0m  : Restore via Key/Kode                             ║"
+echo -e "║  \e[1;93mc\e[0m  : Account Controls                                 ║"
 echo -e "║  \e[1;93mx\e[0m  : Exit Script                                      ║"
 echo -e "╚════════════════════════════════════════════════════════╝"
 
@@ -375,6 +376,7 @@ case $benjaminwickman in
 b) clear ; backup ;;
 r) clear ; restore ;;
 k) clear ; restore_via_key ;;    # <-- Tambahan baru untuk restore via key
+c) clear ; /etc/xray/auto-lock.sh ;;  # <-- Tambahan baru untuk account control by MrZodoxVpython X Benjamin.Wickman
 x) exit ;;
 *) echo "Input yang anda berikan tidak tersedia di script!" ; sleep 5 ; menu ;;
 esac
