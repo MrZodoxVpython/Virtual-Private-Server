@@ -336,7 +336,7 @@ echo -e "║  \e[1;93m10\e[0m : Bot Panel                                       
 echo -e "║  \e[1;93m11\e[0m : Set Udp VPS                                      ║"
 echo -e "║  \e[1;93mb\e[0m  : Backup Account                                   ║"
 echo -e "║  \e[1;93mr\e[0m  : Restore Account                                  ║"
-echo -e "║  \e[1;93mk\e[0m  : Restore via Key/Kode                             ║"
+echo -e "║  \e[1;93mk\e[0m  : Force Create Account                             ║"
 echo -e "║  \e[1;93mc\e[0m  : Account Controls                                 ║"
 echo -e "║  \e[1;93mx\e[0m  : Exit Script                                      ║"
 echo -e "╚════════════════════════════════════════════════════════╝"
