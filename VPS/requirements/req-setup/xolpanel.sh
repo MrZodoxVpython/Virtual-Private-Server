@@ -61,7 +61,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/root/xolpanel
-ExecStart=/usr/bin/python3 main.py
+ExecStart=/usr/bin/python3 -m xolpanel
 Restart=always
 User=root
 
