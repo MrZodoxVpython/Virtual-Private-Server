@@ -74,6 +74,7 @@ systemctl daemon-reexec
 systemctl daemon-reload
 systemctl enable xolpanel
 systemctl start xolpanel
+systemctl status xolpanel
 
 # Verifikasi apakah service berjalan
 if systemctl is-active --quiet xolpanel; then
