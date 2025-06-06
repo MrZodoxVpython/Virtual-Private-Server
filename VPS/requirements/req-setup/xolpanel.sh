@@ -86,7 +86,7 @@ fi
 # Informasi akhir
 clear
 echo -e "==============================================="
-echo "✅ CREATED BY BENJAMIN-TOKOMARD-DEV"
+echo "        ✅ CREATED BY BENJAMIN-TOKOMARD-DEV"
 echo "✅ Instalasi selesai, ketik /menu pada bot Telegram Anda"
 echo -e "==============================================="
 
