@@ -16,9 +16,7 @@ clear
 yellow "Checking the systems ...."
 date
 green "done step 1 ....."
-botak=$(cat /etc/xray/domain)
-echo "$botak" > /root/domain
-domain=$(cat /root/domain)
+domain=$(cat /etc/xray/domain)
 sleep 0.5
 mkdir -p /etc/xray 
 
