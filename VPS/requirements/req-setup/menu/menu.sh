@@ -330,7 +330,7 @@ echo -e "║  \e[1;93m4\e[0m  : Menu Trojan                                     
 echo -e "║  \e[1;93m5\e[0m  : Menu Shadowsocks                                 ║"
 echo -e "║  \e[1;93m6\e[0m  : Menu Account Controls                            ║"
 echo -e "║  \e[1;93m7\e[0m  : Menu Force Create Account                        ║"
-echo -e "║  \e[1;93m8\e[0m  : Menu Setting                                     ║"
+echo -e "║  \e[1;93m8\e[0m  : Menu System                                   ║"
 echo -e "║  \e[1;93m9\e[0m  : Cek Status Service                               ║"
 echo -e "║  \e[1;93m10\e[0m : Install Bot Panel                                ║"
 echo -e "║  \e[1;93m11\e[0m : Reboot VPS                                       ║"
