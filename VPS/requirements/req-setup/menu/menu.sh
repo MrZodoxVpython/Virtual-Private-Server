@@ -328,16 +328,16 @@ echo -e "║  \e[1;93m2\e[0m  : Menu Vmess                                      
 echo -e "║  \e[1;93m3\e[0m  : Menu Vless                                       ║"
 echo -e "║  \e[1;93m4\e[0m  : Menu Trojan                                      ║"
 echo -e "║  \e[1;93m5\e[0m  : Menu Shadowsocks                                 ║"
-echo -e "║  \e[1;93m6\e[0m  : Menu Setting                                     ║"
-echo -e "║  \e[1;93m7\e[0m  : Status Service                                   ║"
-echo -e "║  \e[1;93m8\e[0m  : Clear RAM Cache                                  ║"
-echo -e "║  \e[1;93m9\e[0m  : Reboot VPS                                       ║"
-echo -e "║  \e[1;93m10\e[0m : Bot Panel                                        ║"
+echo -e "║  \e[1;93m6\e[0m  : Menu Account Controls                            ║"
+echo -e "║  \e[1;93m7\e[0m  : Menu Force Create Account                        ║"
+echo -e "║  \e[1;93m8\e[0m  : Menu Setting                                     ║"
+echo -e "║  \e[1;93m9\e[0m  : Cek Status Service                               ║"
+echo -e "║  \e[1;93m10\e[0m : Install Bot Panel                                ║"
 echo -e "║  \e[1;93m11\e[0m : Set Udp VPS                                      ║"
+echo -e "║  \e[1;93m12\e[0m : Reboot VPS                                       ║"
+echo -e "║  \e[1;93mc\e[0m  : Clear Cache                                      ║"
 echo -e "║  \e[1;93mb\e[0m  : Backup Account                                   ║"
 echo -e "║  \e[1;93mr\e[0m  : Restore Account                                  ║"
-echo -e "║  \e[1;93mk\e[0m  : Force Create Account                             ║"
-echo -e "║  \e[1;93mc\e[0m  : Account Controls                                 ║"
 echo -e "║  \e[1;93mx\e[0m  : Exit Script                                      ║"
 echo -e "╚════════════════════════════════════════════════════════╝"
 
@@ -367,16 +367,16 @@ case $benjaminwickman in
 3) clear ; m-vless ;;
 4) clear ; m-trojan ;;
 5) clear ; m-ssws ;;
-6) clear ; m-system ;;
-7) clear ; running ;;
-8) clear ; clearcache ;;
-9) clear ; reboot ; /sbin/reboot ;;
+6) clear ; /etc/xray/auto-lock.sh ;;  # <-- Tambahan baru untuk account control by MrZodoxVpython X Benjamin.Wickman
+7) clear ; restore_via_key ;;    # <-- Tambahan baru untuk restore via key by BenjaminZodox
+8) clear ; m-system ;;
+9) clear ; running ;;
 10) clear ; wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xolpanel.sh && chmod +x xolpanel.sh && ./xolpanel.sh ;;
 11) clear ; wget -qO- -O udp.sh "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/udp.sh" && chmod +x udp.sh && ./udp.sh ;;
+12) clear ; reboot ; /sbin/reboot ;;
+c) clear ; clearcache ;;
 b) clear ; backup ;;
 r) clear ; restore ;;
-k) clear ; restore_via_key ;;    # <-- Tambahan baru untuk restore via key
-c) clear ; /etc/xray/auto-lock.sh ;;  # <-- Tambahan baru untuk account control by MrZodoxVpython X Benjamin.Wickman
 x) exit ;;
 *) echo "Input yang anda berikan tidak tersedia di script!" ; sleep 5 ; menu ;;
 esac
