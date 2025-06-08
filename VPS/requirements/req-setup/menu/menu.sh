@@ -330,14 +330,13 @@ echo -e "║  \e[1;93m4\e[0m  : Menu Trojan                                     
 echo -e "║  \e[1;93m5\e[0m  : Menu Shadowsocks                                 ║"
 echo -e "║  \e[1;93m6\e[0m  : Menu Account Controls                            ║"
 echo -e "║  \e[1;93m7\e[0m  : Menu Force Create Account                        ║"
-echo -e "║  \e[1;93m8\e[0m  : Menu System                                   ║"
-echo -e "║  \e[1;93m9\e[0m  : Cek Status Service                               ║"
-echo -e "║  \e[1;93m10\e[0m : Install Bot Panel                                ║"
-echo -e "║  \e[1;93m11\e[0m : Reboot VPS                                       ║"
+echo -e "║  \e[1;93m8\e[0m  : Menu Web Admin                                   ║"
+echo -e "║  \e[1;93m9\e[0m  : Menu System                                      ║"
+echo -e "║  \e[1;93m10\e[0m : Reboot                                           ║"
 echo -e "║  \e[1;93mc\e[0m  : Clear Cache                                      ║"
 echo -e "║  \e[1;93mb\e[0m  : Backup Account                                   ║"
 echo -e "║  \e[1;93mr\e[0m  : Restore Account                                  ║"
-echo -e "║  \e[1;93mx\e[0m  : Exit Script                                      ║"
+echo -e "║  \e[1;93mx\e[0m  : Exit                                             ║"
 echo -e "╚════════════════════════════════════════════════════════╝"
 
 # User Info Box
@@ -368,10 +367,9 @@ case $benjaminwickman in
 5) clear ; m-ssws ;;
 6) clear ; /etc/xray/auto-lock.sh ;;  # <-- Tambahan baru untuk account control by MrZodoxVpython X Benjamin.Wickman
 7) clear ; restore_via_key ;;    # <-- Tambahan baru untuk restore via key by BenjaminZodox
-8) clear ; m-system ;;
-9) clear ; running ;;
-10) clear ; wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xolpanel.sh && chmod +x xolpanel.sh && ./xolpanel.sh ;;
-11) clear ; reboot ; /sbin/reboot ;;
+8) clear ; webadmin ;;
+9) clear ; m-system ;;
+10) clear ; reboot ; /sbin/reboot ;;
 c) clear ; clearcache ;;
 b) clear ; backup ;;
 r) clear ; restore ;;
