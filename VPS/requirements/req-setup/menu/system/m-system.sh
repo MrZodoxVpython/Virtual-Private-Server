@@ -16,6 +16,7 @@ echo -e " [\e[36m•6\e[0m] Install TCP BBR"
 echo -e " [\e[36m•7\e[0m] Dns Changer"
 echo -e " [\e[36m•8\e[0m] Set Udp VPS"    
 echo -e " [\e[36m•9\e[0m] Cek Status Service"   
+echo -e " [\e[36m•10\e[0m] Install Bot Panel"   
 echo -e ""
 echo -e " [\e[31m•0\e[0m] \e[31mBACK TO MENU\033[0m"
 echo -e   ""
@@ -35,6 +36,7 @@ case $opt in
 7) clear ; m-dns ; exit ;;
 8) clear ; wget -qO- -O udp.sh "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/udp.sh" && chmod +x udp.sh && ./udp.sh ;;
 9) clear ; running ;;
+10) clear ; wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xolpanel.sh && chmod +x xolpanel.sh && ./xolpanel.sh ;;
 0) clear ; menu ; exit ;;
 x) exit ;;
 *) echo -e "" ; echo "Benjamin-notif: Menu tidak tersedia!" ; sleep 1 ; m-system ;;
