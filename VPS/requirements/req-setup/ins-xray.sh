@@ -27,6 +27,8 @@ mkdir -p /etc/xray
 green "[ BENJAMIN ] Installing acme.sh for wildcard certificate issuance"
 
 systemctl stop nginx
+red "[ BENJAMIN ] If you getting error than run 'systemctl start nginx' right!"
+sleep 2
 
 # === KONFIGURASI ===
 DOMAIN=$(cat /etc/xray/domain)
