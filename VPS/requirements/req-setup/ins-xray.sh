@@ -28,28 +28,70 @@ green "[ BENJAMIN ] Installing acme.sh for wildcard certificate issuance"
 
 systemctl stop nginx
 
-mkdir -p /root/.acme.sh
-curl https://get.acme.sh | sh
-export PATH="/root/.acme.sh:$PATH"
-
-# *** SET VARIABEL CLOUDflare API TOKEN DISINI ***
+# === KONFIGURASI ===
+DOMAIN=$(cat /etc/xray/domain)
 CF_Token="v-twyDjZZiUNsu9WXxt5uaYrQC4u0gIV6cFUl9p8"
-export CF_Token
+CERT_DIR="/etc/xray"
+ACME_DIR="$HOME/.acme.sh"
 
-# issue wildcard certificate menggunakan DNS API Cloudflare
-/root/.acme.sh/acme.sh --issue --dns dns_cf -d "*.$domain" -d "$domain"
+# === 1. EXPORT TOKEN CLOUDFLARE ===
+export CF_Token="${CF_Token}"
 
+# === 2. INSTALASI acme.sh ===
+echo -e "\e[1;32m[ BENJAMIN ] Installing acme.sh for wildcard certificate issuance\e[0m"
+curl https://get.acme.sh | sh
+
+# Tambahkan alias agar bisa dipakai langsung jika terminal baru dibuka
+source ~/.bashrc
+
+# === 3. DAPATKAN SERTIFIKAT ===
+$ACME_DIR/acme.sh --issue --dns dns_cf -d "*.${DOMAIN}" -d "${DOMAIN}" --force
 if [ $? -ne 0 ]; then
-  red "Failed to issue wildcard certificate for $domain"
-  exit 1
+    echo -e "\e[1;31m[ ERROR ] Failed to issue certificate\e[0m"
+    exit 1
 fi
 
-/root/.acme.sh/acme.sh --installcert -d "*.$domain" -d "$domain" \
---key-file /etc/xray/xray.key \
---fullchain-file /etc/xray/xray.crt \
---ecc
+# === 4. INSTALL SERTIFIKAT KE DIREKTORI YANG DIGUNAKAN OLEH XRAY ===
+mkdir -p ${CERT_DIR}
+$ACME_DIR/acme.sh --install-cert -d "*.${DOMAIN}" \
+  --key-file ${CERT_DIR}/xray.key \
+  --fullchain-file ${CERT_DIR}/xray.crt \
+  --reloadcmd "systemctl restart nginx"
 
-green "[ BENJAMIN ] Wildcard certificate installed at /etc/xray/xray.crt and /etc/xray/xray.key"
+# === 5. CEK DAN RESTART NGINX ===
+echo -e "\e[1;34m[ INFO ] Restarting Nginx...\e[0m"
+systemctl restart nginx
+if [ $? -ne 0 ]; then
+    echo -e "\e[1;31m[ ERROR ] Nginx failed to restart. Showing status:\e[0m"
+    systemctl status nginx --no-pager
+    exit 2
+fi
+
+echo -e "\e[1;32m[ SUCCESS ] Wildcard certificate installed and Nginx restarted successfully.\e[0m"
+
+
+#mkdir -p /root/.acme.sh
+#curl https://get.acme.sh | sh
+#export PATH="/root/.acme.sh:$PATH"
+
+# *** SET VARIABEL CLOUDflare API TOKEN DISINI ***
+#CF_Token="v-twyDjZZiUNsu9WXxt5uaYrQC4u0gIV6cFUl9p8"
+#export CF_Token
+
+# issue wildcard certificate menggunakan DNS API Cloudflare
+#/root/.acme.sh/acme.sh --issue --dns dns_cf -d "*.$domain" -d "$domain"
+
+#if [ $? -ne 0 ]; then
+#  red "Failed to issue wildcard certificate for $domain"
+#  exit 1
+#fi
+
+#/root/.acme.sh/acme.sh --installcert -d "*.$domain" -d "$domain" \
+#--key-file /etc/xray/xray.key \
+#--fullchain-file /etc/xray/xray.crt \
+#--ecc
+
+#green "[ BENJAMIN ] Wildcard certificate installed at /etc/xray/xray.crt and /etc/xray/xray.key"
 
 # Setup cron renew for acme.sh wildcard cert
 echo -n '#!/bin/bash
