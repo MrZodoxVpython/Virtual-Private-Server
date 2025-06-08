@@ -74,9 +74,9 @@ function menu_webadmin() {
         *)
             echo -e "${RED}❌ Pilihan tidak valid!${NC}"
             sleep 1
-            menu_webadmin
+            menu
             ;;
     esac
 }
 
-menu
+menu_webadmin
