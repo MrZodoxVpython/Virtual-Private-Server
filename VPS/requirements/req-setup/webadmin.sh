@@ -79,4 +79,4 @@ function menu_webadmin() {
     esac
 }
 
-menu_webadmin
+menu
