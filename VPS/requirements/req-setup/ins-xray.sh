@@ -45,6 +45,7 @@ curl https://get.acme.sh | sh
 source ~/.bashrc
 
 # === 3. DAPATKAN SERTIFIKAT ===
+$ACME_DIR/acme.sh --register-account -m mrzodoxvpython@email.com #change to ur own email
 $ACME_DIR/acme.sh --issue --dns dns_cf -d "*.${DOMAIN}" -d "${DOMAIN}" --force
 if [ $? -ne 0 ]; then
     echo -e "\e[1;31m[ ERROR ] Failed to issue certificate\e[0m"
