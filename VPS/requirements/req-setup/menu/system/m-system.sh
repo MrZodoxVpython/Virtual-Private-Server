@@ -14,7 +14,7 @@ echo -e " [\e[36m•4\e[0m] Restart All Service"
 echo -e " [\e[36m•5\e[0m] Cek Bandwith"
 echo -e " [\e[36m•6\e[0m] Install TCP BBR"
 echo -e " [\e[36m•7\e[0m] Dns Changer"
-echo -e " [\e[36m•8\e[0m] Set Udp VPS         
+echo -e " [\e[36m•8\e[0m] Set Udp VPS"    
 echo -e ""
 echo -e " [\e[31m•0\e[0m] \e[31mBACK TO MENU\033[0m"
 echo -e   ""
