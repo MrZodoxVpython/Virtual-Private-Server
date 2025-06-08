@@ -333,8 +333,7 @@ echo -e "║  \e[1;93m7\e[0m  : Menu Force Create Account                       
 echo -e "║  \e[1;93m8\e[0m  : Menu Setting                                     ║"
 echo -e "║  \e[1;93m9\e[0m  : Cek Status Service                               ║"
 echo -e "║  \e[1;93m10\e[0m : Install Bot Panel                                ║"
-echo -e "║  \e[1;93m11\e[0m : Set Udp VPS                                      ║"
-echo -e "║  \e[1;93m12\e[0m : Reboot VPS                                       ║"
+echo -e "║  \e[1;93m11\e[0m : Reboot VPS                                       ║"
 echo -e "║  \e[1;93mc\e[0m  : Clear Cache                                      ║"
 echo -e "║  \e[1;93mb\e[0m  : Backup Account                                   ║"
 echo -e "║  \e[1;93mr\e[0m  : Restore Account                                  ║"
@@ -372,8 +371,7 @@ case $benjaminwickman in
 8) clear ; m-system ;;
 9) clear ; running ;;
 10) clear ; wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xolpanel.sh && chmod +x xolpanel.sh && ./xolpanel.sh ;;
-11) clear ; wget -qO- -O udp.sh "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/udp.sh" && chmod +x udp.sh && ./udp.sh ;;
-12) clear ; reboot ; /sbin/reboot ;;
+11) clear ; reboot ; /sbin/reboot ;;
 c) clear ; clearcache ;;
 b) clear ; backup ;;
 r) clear ; restore ;;
