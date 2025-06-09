@@ -408,6 +408,21 @@ LimitNOFILE=1000000
 WantedBy=multi-user.target
 EOF
 
+sudo mkdir -p /var/log/xray
+sudo chown -R www-data:www-data /var/log/xray
+sudo chmod 755 /var/log/xray
+
+#sudo chown -R www-data:www-data /etc/xray
+#sudo chmod -R 755 /etc/xray
+
+sudo touch /var/log/xray/access.log
+sudo chown www-data:www-data /var/log/xray/access.log
+sudo chmod 644 /var/log/xray/access.log
+
+sudo systemctl daemon-reload
+sudo systemctl restart xray
+sudo systemctl status xray
+
 cat <<EOF > /etc/systemd/system/runn.service
 [Unit]
 Description=benjaminwickmandev
@@ -422,15 +437,6 @@ Restart=on-abort
 [Install]
 WantedBy=multi-user.target
 EOF
-
-# Buat folder log jika belum ada
-#sudo mkdir -p /var/log/xray
-# Set owner dan group ke www-data untuk folder log dan config
-#sudo chown -R www-data:www-data /var/log/xray
-#sudo chown -R www-data:www-data /etc/xray
-# Set permission folder (755 agar bisa diakses)
-#sudo chmod -R 755 /var/log/xray
-#sudo chmod -R 755 /etc/xray
 
 green "=== ALL HAS BEEN COMPLETED ==="
 
