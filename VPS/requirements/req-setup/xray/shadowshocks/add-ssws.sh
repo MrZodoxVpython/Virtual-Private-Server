@@ -59,9 +59,9 @@ cipher="aes-128-gcm"
 uuid=$(cat /proc/sys/kernel/random/uuid)
 read -p "Expired (days): " masaaktif
 exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
-sed -i '/#ssws$/a\### '"$user $exp"'\
+sed -i '/#ssws$/a\#$ '"$user $exp"'\
 },{"password": "'""$uuid""'","method": "'""$cipher""'","email": "'""$user""'"' /etc/xray/config.json
-sed -i '/#ssgrpc$/a\### '"$user $exp"'\
+sed -i '/#ssgrpc$/a\#$ '"$user $exp"'\
 },{"password": "'""$uuid""'","method": "'""$cipher""'","email": "'""$user""'"' /etc/xray/config.json
 echo $cipher:$uuid > /tmp/log
 shadowsocks_base64=$(cat /tmp/log)
@@ -74,7 +74,7 @@ systemctl restart xray
 rm -rf /tmp/log
 rm -rf /tmp/log1
 cat > /home/vps/public_html/ss-$user.txt <<-END
-# sodosok ws
+# sadowsok ws
 { 
  "dns": {
     "servers": [
@@ -181,7 +181,7 @@ cat > /home/vps/public_html/ss-$user.txt <<-END
   "stats": {}
  }
  
- # SODOSOK grpc
+ # sadowsok grpc
 
 
 {
@@ -305,14 +305,13 @@ echo -e "Ciphers        : ${cipher}" | tee -a /etc/log-create-shadowsocks.log
 echo -e "Network        : ws/grpc" | tee -a /etc/log-create-shadowsocks.log
 echo -e "Path           : /ss-ws" | tee -a /etc/log-create-shadowsocks.log
 echo -e "ServiceName    : ss-grpc" | tee -a /etc/log-create-shadowsocks.log
+echo -e "Expired On     : $exp" | tee -a /etc/log-create-shadowsocks.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-shadowsocks.log
 echo -e "Link TLS       : ${shadowsockslink}" | tee -a /etc/log-create-shadowsocks.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-shadowsocks.log
 echo -e "Link none TLS  : ${shadowsockslink1}" | tee -a /etc/log-create-shadowsocks.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-shadowsocks.log
 echo -e "Link gRPC      : ${shadowsockslink2}" | tee -a /etc/log-create-shadowsocks.log
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-shadowsocks.log
-echo -e "Expired On     : $exp" | tee -a /etc/log-create-shadowsocks.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-shadowsocks.log
 echo "" | tee -a /etc/log-create-shadowsocks.log
 read -n 1 -s -r -p "Press any key to back on menu"
