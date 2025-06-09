@@ -157,14 +157,41 @@ fi
 # --- Install Scripts ---
 green "=== PROCESS INSTALLING ALL SCRIPT ==="
 clear
-echo -e "\e[33m-----------------------------------\033[0m"
-echo -e "$BGreen     Installing SSH Websocket         $NC"
-echo -e "\e[33m-----------------------------------\033[0m"
-sleep 0.5
+
+# Warna
+BGreen='\e[1;32m'
+BYellow='\e[1;33m'
+BBlue='\e[1;34m'
+BRed='\e[1;31m'
+NC='\e[0m' # No Color
+Bold='\e[1m'
+Reset='\e[0m'
+# Emoji & Icon
+spark="✨"
+gear="⚙️"
+rocket="🚀"
+dot="•"
+line="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+# Clear screen
 clear
+# Epic Banner Box
+echo -e "${BYellow}${Bold}"
+echo -e "╔════════════════════════════════════════════════════╗"
+echo -e "║${NC}           ${BGreen}${spark} Installing SSH Websocket ${spark}           ${BYellow}${Bold}║"
+echo -e "╚════════════════════════════════════════════════════╝"
+echo -e "${NC}"
+# Process Display
+echo -e "${BBlue}${dot} ${gear} [ BENJAMIN-DEV ] Starting installation process..."
+sleep 5
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/insshws.sh && chmod +x insshws.sh && ./insshws.sh
-tyblue "ALL DONE BY BENJAMIN-DEV"
+echo -e "${BBlue}${dot} ${gear} [ BENJAMIN-DEV ] Fetching configuration files..."
+sleep 5
+echo -e "${BBlue}${dot} ${gear} [ BENJAMIN-DEV ] Enabling services..."
+sleep 5
+echo -e "${BGreen}${rocket} [ BENJAMIN-DEV ] SSH Websocket Installed Successfully!${NC}"
+sleep 0.5
+clear
 
 clear
 echo -e "\e[33m-----------------------------------\033[0m"
