@@ -8,8 +8,8 @@ MYIP=$(wget -qO- ipinfo.io/ip);
 clear
 apt install jq curl -y
 sub=$(</dev/urandom tr -dc a-z | head -c4)
-DOMAIN=tokomard.com
-SUB_DOMAIN=${sub}vip.tokomard.com
+DOMAIN=tokomard.store
+SUB_DOMAIN=${sub}tokomard.store
 CF_ID=tokomard@gmail.com
 CF_KEY=1ff2e2bfc5f3341e1e7a70ed2c1a333841a8b
 set -euo pipefail
