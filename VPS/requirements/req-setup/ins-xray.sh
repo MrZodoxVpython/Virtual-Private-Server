@@ -423,6 +423,15 @@ Restart=on-abort
 WantedBy=multi-user.target
 EOF
 
+# Buat folder log jika belum ada
+#sudo mkdir -p /var/log/xray
+# Set owner dan group ke www-data untuk folder log dan config
+#sudo chown -R www-data:www-data /var/log/xray
+#sudo chown -R www-data:www-data /etc/xray
+# Set permission folder (755 agar bisa diakses)
+#sudo chmod -R 755 /var/log/xray
+#sudo chmod -R 755 /etc/xray
+
 green "=== ALL HAS BEEN COMPLETED ==="
 
 #nginx config
