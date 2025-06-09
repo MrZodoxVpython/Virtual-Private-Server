@@ -113,12 +113,33 @@ mkdir -p /var/lib/ >/dev/null 2>&1
 echo "IP=" >> /var/lib/ipvps.conf
 
 clear
-echo -e "$BBlue                     SETUP DOMAIN VPS                       $NC"
-echo -e "$BYellow----------------------------------------------------------$NC"
-echo -e "$BGreen     1. Use Domain Random / Gunakan Domain Random          $NC"
-echo -e "$BGreen  2. Choose Your Own Domain / Gunakan Domain Sendiri       $NC"
-echo -e "$BYellow----------------------------------------------------------$NC"
-read -rp "Input 1 or 2 / Pilih 1 atau 2 : " dns
+# Warna
+BBlue='\e[1;34m'
+BYellow='\e[1;33m'
+BGreen='\e[1;32m'
+NC='\e[0m' # No Color
+Bold='\e[1m'
+Reset='\e[0m'
+# Icon
+star="★"
+arrow="➤"
+dot="•"
+line="──────────────────────────────────────────────────────────────"
+# Clear screen
+clear
+# Header
+echo -e "${BBlue}${Bold}"
+echo -e "┌───────────────────────────────────────────────────────────────┐"
+echo -e "│                       🌐 SETUP DOMAIN VPS                     │"
+echo -e "└───────────────────────────────────────────────────────────────┘"
+echo -e "${Reset}"
+# Options
+echo -e "${BYellow}${line}${NC}"
+echo -e "${BGreen}${arrow} ${Bold}1.${NC} Gunakan ${Bold}Domain Acak${NC}  ${dot} (Generate domain otomatis)"
+echo -e "${BGreen}${arrow} ${Bold}2.${NC} Gunakan ${Bold}Domain Sendiri${NC} ${dot} (Domain milik Lu sendiri!)"
+echo -e "${BYellow}${line}${NC}"
+# Prompt
+read -rp $'\e[1;36m🡺 Pilih opsi [1 / 2] : \e[0m' dns
 
 if [[ $dns -eq 1 ]]; then
   wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/cf.sh && chmod +x cf.sh && ./cf.sh
