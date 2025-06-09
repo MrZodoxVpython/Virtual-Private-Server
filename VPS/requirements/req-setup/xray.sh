@@ -37,21 +37,21 @@ install -m 644 geosite.dat /usr/local/share/xray/geosite.dat
 mkdir -p /etc/xray
 
 # Buat file systemd
-echo -e "${Yellow}[•] Creating systemd service...${NC}"
-cat > /etc/systemd/system/xray.service <<EOF
-[Unit]
-Description=Xray Service
-After=network.target
+#echo -e "${Yellow}[•] Creating systemd service...${NC}"
+#cat > /etc/systemd/system/xray.service <<EOF
+#[Unit]
+#Description=Xray Service
+#After=network.target
 
-[Service]
-User=root
-ExecStart=/usr/local/bin/xray -config /etc/xray/config.json
-Restart=on-failure
-LimitNOFILE=65535
+#[Service]
+#User=root
+#ExecStart=/usr/local/bin/xray -config /etc/xray/config.json
+#Restart=on-failure
+#LimitNOFILE=65535
 
-[Install]
-WantedBy=multi-user.target
-EOF
+#[Install]
+#WantedBy=multi-user.target
+#EOF
 
 # Reload systemd & aktifkan service
 echo -e "${Yellow}[•] Enabling Xray service...${NC}"
