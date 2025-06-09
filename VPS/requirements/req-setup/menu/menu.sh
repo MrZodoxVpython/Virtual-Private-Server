@@ -119,7 +119,7 @@ LIGHT='\033[0;37m'
 domain=$(cat /etc/xray/domain)
 
 # Status TLS
-cert_dir=$(find $HOME/.acme.sh -type d -name "*_ecc" | grep "vpn-premium.tokomard.store" | head -n1)
+cert_dir=$(find $HOME/.acme.sh -type d -name "*_ecc" | grep "$domain" | head -n1)
 key_file=$(find "$cert_dir" -name "*.key" | head -n1)
 
 if [[ -f "$key_file" ]]; then
@@ -316,7 +316,7 @@ echo -e "└──────────────────────�
 echo -e "\n\e[1;38;5;198m                   ⚔  𝐑𝐀𝐌 𝐈𝐍𝐅𝐎  ⚔\e[0m"
 echo -e "\e[1;91m╔════════════════════════════════════════════════════════╗\e[0m"
 echo -e "║  \e[1;96mRAM USED  :\e[0m ${uram} MB                                    ║"
-echo -e "║  \e[1;96mRAM TOTAL :\e[0m ${tram} MB                                    ║"
+echo -e "║  \e[1;96mRAM TOTAL :\e[0m ${tram} MB                                   ║"
 echo -e "╚════════════════════════════════════════════════════════╝"
 
 # Main Menu Box
