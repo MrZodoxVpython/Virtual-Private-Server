@@ -194,13 +194,40 @@ sleep 0.5
 clear
 
 clear
-echo -e "\e[33m-----------------------------------\033[0m"
-echo -e "$BGreen         Installing XRAY              $NC"
-echo -e "\e[33m-----------------------------------\033[0m"
-sleep 0.5
-green "[ BENJAMIN ] === STARTED THE INSTALATION ==="
+# Warna & Efek
+BGreen='\e[1;32m'
+BYellow='\e[1;33m'
+BBlue='\e[1;34m'
+BRed='\e[1;31m'
+NC='\e[0m'
+Bold='\e[1m'
+Dim='\e[2m'
+Reset='\e[0m'
+# Emoji & Ikon
+fire="🔥"
+shield="🛡️"
+lightning="⚡"
+rocket="🚀"
+dot="•"
+# Clear layar
 clear
+# Super Banner XRAY
+echo -e "${BYellow}${Bold}"
+echo -e "╔════════════════════════════════════════════════════╗"
+echo -e "║${NC}        ${BGreen}${lightning} ${Bold}XRAY Core Installation Initiated ${lightning}      ${BYellow}${Bold}║"
+echo -e "╚════════════════════════════════════════════════════╝"
+echo -e "${NC}"
+# Proses efek loading (opsional dramatis)
+echo -e "${BBlue}${dot} ${shield} Preparing secure transport layer..."
+sleep 5
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
+echo -e "${BBlue}${dot} ${shield} Deploying XRAY binaries to system path..."
+sleep 5
+echo -e "${BBlue}${dot} ${shield} Generating configs and TLS templates..."
+sleep 5
+echo -e "${BGreen}${rocket} XRAY Core Installed Successfully! Enjoy secure tunneling.${NC}"
+sleep 2
+clear
 tyblue "[ BENJAMIN ] === ALL INSTALATION IS COMPLETE, PROCESSING FINISHING THE INSTALATION ==="
 
 # --- Finalization ---
