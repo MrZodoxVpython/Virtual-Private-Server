@@ -2,7 +2,7 @@
 #BenjaminWickman
 #MrZodoxVpython
 #Tokomard
-
+rm -rf /root/ins-xray.sh
 # --- Colored Output Functions ---
 green()    { echo -e "\033[32;1m${*}\033[0m"; }
 red()      { echo -e "\033[31;1m${*}\033[0m"; }
@@ -370,7 +370,7 @@ cat > /etc/xray/config.json << END
 END
 rm -rf /etc/systemd/system/xray.service.d
 rm -rf /etc/systemd/system/xray@.service
-cat <<EOF> /etc/systemd/system/xray.service
+cat <<EOF > /etc/systemd/system/xray.service
 Description=Xray Service
 Documentation=https://github.com/xtls
 After=network.target nss-lookup.target
@@ -388,9 +388,9 @@ LimitNOFILE=1000000
 
 [Install]
 WantedBy=multi-user.target
-
 EOF
-cat > /etc/systemd/system/runn.service <<EOF
+
+cat <<EOF > /etc/systemd/system/runn.service
 [Unit]
 Description=benjaminwickmandev
 After=network.target
@@ -404,11 +404,12 @@ Restart=on-abort
 [Install]
 WantedBy=multi-user.target
 EOF
+
 green "=== ALL HAS BEEN COMPLETED ==="
 
 #nginx config
 green "=== CONFIGURING THE NGINX CONF ==="
-cat >/etc/nginx/conf.d/xray.conf <<EOF
+cat <<EOF > /etc/nginx/conf.d/xray.conf
     server {
              listen 80;
              listen [::]:80;
@@ -422,6 +423,7 @@ cat >/etc/nginx/conf.d/xray.conf <<EOF
              root /home/vps/public_html;
         }
 EOF
+
 sed -i '$ ilocation = /vless' /etc/nginx/conf.d/xray.conf
 sed -i '$ i{' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
@@ -585,4 +587,4 @@ rm /root/scdomain > /dev/null 2>&1
 fi
 yellow "[ BENJAMIN ]" tyblue "=== ALL HAS BEEN COMPLETE! ==="
 clear
-rm -rf ins-xray.sh  
+rm -rf ins-
