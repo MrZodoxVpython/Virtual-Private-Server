@@ -30,4 +30,4 @@ systemctl enable ws-stunnel.service
 systemctl start ws-stunnel.service
 systemctl restart ws-stunnel.service
 
-rm -f /root/insshws.sh
+rm -rf /root/insshws.sh
