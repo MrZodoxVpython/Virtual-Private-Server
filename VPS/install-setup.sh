@@ -183,8 +183,6 @@ echo -e "${NC}"
 # Process Display
 echo -e "${BBlue}${dot} ${gear} [ BENJAMIN-DEV ] Starting installation process..."
 sleep 5
-wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray.sh && chmod +x xray.sh && ./xray.sh
-rm -rf xray.sh
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/insshws.sh && chmod +x insshws.sh && ./insshws.sh
 echo -e "${BBlue}${dot} ${gear} [ BENJAMIN-DEV ] Fetching configuration files..."
@@ -222,6 +220,8 @@ echo -e "${NC}"
 # Proses efek loading (opsional dramatis)
 echo -e "${BBlue}${dot} ${shield} Preparing secure transport layer..."
 sleep 5
+wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/xray.sh && chmod +x xray.sh && ./xray.sh
+rm -rf xray.sh
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
 echo -e "${BBlue}${dot} ${shield} Deploying XRAY binaries to system path..."
 sleep 5
