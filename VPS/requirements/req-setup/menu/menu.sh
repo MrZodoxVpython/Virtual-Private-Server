@@ -313,11 +313,33 @@ echo -e "│  \e[1;93mDATE & TIME :\e[0m $DATE2"
 echo -e "└────────────────────────────────────────────────────────┘"
 
 # RAM Info Box
+# Hitung panjang teks
+used_label="RAM USED  :"
+total_label="RAM TOTAL :"
+uram_text="${uram} MB"
+tram_text="${tram} MB"
+# Maksimal panjang isi (label + value)
+line1_len=$(( ${#used_label} + ${#uram_text} ))
+line2_len=$(( ${#total_label} + ${#tram_text} ))
+# Tentukan panjang maksimum isi dari kedua baris
+max_len=$(( line1_len > line2_len ? line1_len : line2_len ))
+# Tambah padding kiri dan kanan
+padding_left=9
+padding_right=9
+total_width=$(( padding_left + max_len + padding_right ))
+# Buat garis atas dan bawah
+top_line=$(printf '══%.0s' $(seq 10 $total_width))
+# Tampilkan RAM Info Box dengan lebar fleksibel
 echo -e "\n\e[1;38;5;198m                   ⚔  𝐑𝐀𝐌 𝐈𝐍𝐅𝐎  ⚔\e[0m"
-echo -e "\e[1;91m╔════════════════════════════════════════════════════════╗\e[0m"
-echo -e "║  \e[1;96mRAM USED  :\e[0m ${uram} MB                                    ║"
-echo -e "║  \e[1;96mRAM TOTAL :\e[0m ${tram} MB                                  ║"
-echo -e "╚════════════════════════════════════════════════════════╝"
+echo -e "\e[1;91m╔$top_line╗\e[0m"
+printf "║  \e[1;96m%-10s\e[0m %-*s                                  ║\n" "$used_label" "$((max_len - ${#used_label}))" "$uram_text"
+printf "║  \e[1;96m%-10s\e[0m %-*s                                  ║\n" "$total_label" "$((max_len - ${#total_label}))" "$tram_text"
+echo -e "\e[1;91m╚$top_line╝\e[0m"
+#echo -e "\n\e[1;38;5;198m                   ⚔  𝐑𝐀𝐌 𝐈𝐍𝐅𝐎  ⚔\e[0m"
+#echo -e "\e[1;91m╔════════════════════════════════════════════════════════╗\e[0m"
+#echo -e "║  \e[1;96mRAM USED  :\e[0m ${uram} MB                                    ║"
+#echo -e "║  \e[1;96mRAM TOTAL :\e[0m ${tram} MB                                  ║"
+#echo -e "╚════════════════════════════════════════════════════════╝"
 
 # Main Menu Box
 echo ""
