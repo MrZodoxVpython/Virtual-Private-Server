@@ -377,7 +377,7 @@ wget -O sshws "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-
 wget -O m-dns "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/menu/system/m-dns.sh"
 
 # menu menu
-wget -O webadmin "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/edit/main/VPS/requirements/req-setup/webadmin.sh"
+wget -O webadmin "https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/webadmin.sh"
 
 chmod +x webadmin
 chmod +x menu
