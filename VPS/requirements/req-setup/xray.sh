@@ -55,6 +55,9 @@ EOF
 
 # Reload systemd & aktifkan service
 echo -e "${Yellow}[•] Enabling Xray service...${NC}"
+mkdir -p /var/log/xray
+touch /var/log/xray/access.log /var/log/xray/error.log
+chown -R nobody:nogroup /var/log/xray
 systemctl daemon-reexec
 systemctl daemon-reload
 systemctl enable xray
