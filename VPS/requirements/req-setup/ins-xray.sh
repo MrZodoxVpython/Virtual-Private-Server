@@ -605,4 +605,4 @@ rm /root/scdomain > /dev/null 2>&1
 fi
 yellow "[ BENJAMIN ]" tyblue "=== ALL HAS BEEN COMPLETE! ==="
 clear
-rm -rf ins-
+rm -rf ins-xray.sh
