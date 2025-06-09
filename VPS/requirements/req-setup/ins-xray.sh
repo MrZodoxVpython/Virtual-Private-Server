@@ -141,7 +141,7 @@ cat > /etc/xray/config.json << END
           "decryption":"none",
             "clients": [
                {
-                 "id": "${uuid}"                 
+                 "id": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"                 
 #vless
              }
           ]
@@ -160,9 +160,11 @@ cat > /etc/xray/config.json << END
       "settings": {
             "clients": [
                {
-                 "id": "${uuid}",
+                 "id": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264",
                  "alterId": 0
 #vmess
+### pimes 2222-01-01
+},{"id": "pimes","alterId": 0,"email": "pimes"
              }
           ]
        },
@@ -178,11 +180,13 @@ cat > /etc/xray/config.json << END
       "port": "25432",
       "protocol": "trojan",
       "settings": {
-          "decryption":"none",		
+          "decryption":"none",
            "clients": [
               {
-                 "password": "${uuid}"
+                 "password": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"
 #trojanws
+#! benjaminwickman 2222-01-01
+},{"password": "benjaminwickman","email": "benjaminwickman"
               }
           ],
          "udp": true
@@ -190,7 +194,7 @@ cat > /etc/xray/config.json << END
        "streamSettings":{
            "network": "ws",
            "wsSettings": {
-               "path": "/trojan"
+               "path": "/trojan-ws"
             }
          }
      },
@@ -202,7 +206,7 @@ cat > /etc/xray/config.json << END
            "clients": [
            {
            "method": "aes-128-gcm",
-          "password": "${uuid}"
+          "password": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"
 #ssws
            }
           ],
@@ -214,7 +218,7 @@ cat > /etc/xray/config.json << END
                "path": "/ss-ws"
            }
         }
-     },	
+     },
       {
         "listen": "127.0.0.1",
      "port": "24456",
@@ -223,7 +227,7 @@ cat > /etc/xray/config.json << END
          "decryption":"none",
            "clients": [
              {
-               "id": "${uuid}"
+               "id": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"
 #vlessgrpc
              }
           ]
@@ -242,9 +246,11 @@ cat > /etc/xray/config.json << END
       "settings": {
             "clients": [
                {
-                 "id": "${uuid}",
+                 "id": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264",
                  "alterId": 0
 #vmessgrpc
+### pimes 2222-01-01
+},{"id": "pimes","alterId": 0,"email": "pimes"
              }
           ]
        },
@@ -263,8 +269,10 @@ cat > /etc/xray/config.json << END
           "decryption":"none",
              "clients": [
                {
-                 "password": "${uuid}"
+                 "password": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"
 #trojangrpc
+#! benjaminwickman 2222-01-01
+},{"password": "benjaminwickman","email": "benjaminwickman"
                }
            ]
         },
@@ -283,7 +291,7 @@ cat > /etc/xray/config.json << END
         "clients": [
           {
              "method": "aes-128-gcm",
-             "password": "${uuid}"
+             "password": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"
 #ssgrpc
            }
          ],
@@ -295,7 +303,7 @@ cat > /etc/xray/config.json << END
            "serviceName": "ss-grpc"
           }
        }
-    }	
+    }
   ],
   "outbounds": [
     {
@@ -369,6 +377,7 @@ cat > /etc/xray/config.json << END
   }
 }
 END
+
 rm -rf /etc/systemd/system/xray.service.d
 rm -rf /etc/systemd/system/xray@.service
 cat <<EOF > /etc/systemd/system/xray.service
