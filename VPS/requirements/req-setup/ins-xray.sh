@@ -143,6 +143,8 @@ cat > /etc/xray/config.json << END
                {
                  "id": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"                 
 #vless
+#& piles 3333-01-01
+},{"id": "piles","email": "piles"
              }
           ]
        },
@@ -208,6 +210,8 @@ cat > /etc/xray/config.json << END
            "method": "aes-128-gcm",
           "password": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"
 #ssws
+#$ sadowsok 2066-07-04
+},{"password": "6b3b1e6d-d904-416e-89f4-febfb9e0d0fc","method": "aes-128-gcm","email": "sadowsok"
            }
           ],
           "network": "tcp,udp"
@@ -229,6 +233,8 @@ cat > /etc/xray/config.json << END
              {
                "id": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"
 #vlessgrpc
+#& piles 3333-01-01
+},{"id": "piles","email": "piles"
              }
           ]
        },
@@ -293,6 +299,8 @@ cat > /etc/xray/config.json << END
              "method": "aes-128-gcm",
              "password": "19bd1c2b-42d4-43ce-a4f7-31d50cb70264"
 #ssgrpc
+#$ sadowsok 2066-07-04
+},{"password": "6b3b1e6d-d904-416e-89f4-febfb9e0d0fc","method": "aes-128-gcm","email": "sadowsok"
            }
          ],
            "network": "tcp,udp"
