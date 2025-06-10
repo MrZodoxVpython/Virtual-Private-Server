@@ -569,7 +569,6 @@ cd
 
 yellow "[ BENJAMIN ] === PROCESSING INSTALL ACCOUNT CONTROLS ==="
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/client/acc-control.sh -O /etc/xray/auto-lock.sh && chmod +x /etc/xray/auto-lock.sh
-wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/client/auto-locked.sh -O /etc/xray/auto-locked.sh && chmod +x /etc/xray/auto-locked.sh
 green "=== ACCOUNT CONTROLS INSTALLED ==="
 
 cd /usr/bin/
