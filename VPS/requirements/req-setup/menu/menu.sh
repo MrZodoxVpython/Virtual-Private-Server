@@ -241,7 +241,7 @@ case "$PROTOCOL" in
     TAG_LIST=( ${PROTOCOL_TAGS[$PROTOCOL]} )
     ;;
   ss) # ==== Make prefix one way with the protocol ss comment ====
-    COMMENT_PREFIX="###"
+    COMMENT_PREFIX="#$"
     JSON_ENTRY="        },{\"method\": \"aes-128-gcm\", \"password\": \"$KEY\", \"email\": \"$USER\""
     TAG_LIST=( ${PROTOCOL_TAGS[$PROTOCOL]} )
     ;;
