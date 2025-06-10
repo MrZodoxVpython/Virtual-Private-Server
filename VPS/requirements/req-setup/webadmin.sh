@@ -25,10 +25,11 @@ function banner() {
 function menu_webadmin() {
     banner
     echo -e "${CYAN}╔════════════════════════════════════════════════════════╗"
-    echo -e "║${YELLOW} [1] 🚀 Install Web Admin Panel (Nginx + PHP)           ${CYAN}║"
-    echo -e "║${YELLOW} [2] 🔧 Jalankan PHP Web Server (tanpa Nginx)           ${CYAN}║"
+    echo -e "║${YELLOW} [1] 🚀 Install Web Admin Panel (Caddy + PHP)            ${CYAN}║"
+    echo -e "║${YELLOW} [2] 🔧 Jalankan PHP Web Server (tanpa Caddy)           ${CYAN}║"
     echo -e "║${YELLOW} [3] 🌍 Lihat URL Panel Web                             ${CYAN}║"
     echo -e "║${YELLOW} [4] 📝 Edit Web Admin Panel                            ${CYAN}║"
+    echo -e "║${YELLOW} [5] 📁 Atur Folder Custom Web untuk Caddy              ${CYAN}║"
     echo -e "║${YELLOW} [0] ❌ Kembali ke Menu Utama                           ${CYAN}║"
     echo -e "╚════════════════════════════════════════════════════════╝${NC}"
     echo ""
@@ -37,8 +38,13 @@ function menu_webadmin() {
     case $pilih in
         1)
             banner
-            echo -e "${GREEN}🚀 Menginstal Nginx + PHP + Panel Web...${NC}"
-            apt update && apt install nginx php php-fpm curl unzip software-properties-common certbot python3-certbot-nginx -y
+            echo -e "${GREEN}🚀 Menginstal Caddy + PHP + Panel Web...${NC}"
+            apt update && apt install -y php php-fpm curl unzip software-properties-common debian-keyring debian-archive-keyring apt-transport-https
+
+            # Install Caddy
+            curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+            curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
+            apt update && apt install caddy -y
 
             PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
             PHP_FPM_SERVICE="php${PHP_VERSION}-fpm"
@@ -46,67 +52,36 @@ function menu_webadmin() {
             echo -e "${YELLOW}🌐 Masukkan domain untuk akses panel (Contoh: panel.domainkamu.com):${NC}"
             read -p "➤ " DOMAIN_PANEL
 
-            if [[ ! "$DOMAIN_PANEL" =~ ^[a-zA-Z0-9.-]+$ ]]; then
-                echo -e "${RED}❌ Domain tidak valid! Harap masukkan domain yang benar.${NC}"
-                read -n 1 -s -r -p "Tekan tombol apapun untuk kembali..."
-                menu_webadmin
-                return
-            fi
-
             mkdir -p /var/www/panel
             curl -s https://raw.githubusercontent.com/namaskuy/webadmin-xray/main/index.php -o /var/www/panel/index.php
             chown -R www-data:www-data /var/www/panel
 
-            cat > /etc/nginx/sites-available/panel <<EOF
-server {
-    listen 127.0.0.1:8880;
-    server_name $DOMAIN_PANEL;
+            cat > /etc/caddy/Caddyfile <<EOF
+            ${DOMAIN_PANEL} {
+            # Reverse proxy untuk Xray (WS TLS)
+            sgdo-2dev.tokomard.store {
+                    # Sesuaikan path dan port sesuai konfigurasi Xray Anda
+                    reverse_proxy /vmess 127.0.0.1:23456
+                    reverse_proxy /vless-ws 127.0.0.1:14016
+                    reverse_proxy /trojan-ws 127.0.0.1:25432
+                    reverse_proxy /ss-ws 127.0.0.1:30300
+                    encode gzip
+            }
+            # website statis HTML
+            panel.tokomard.store {
+                root * /var/www/html/xray-panel
+                php_fastcgi unix//run/php/php7.4-fpm.sock
+                file_server
+            }
+            EOF
 
-    root /var/www/panel;
-    index index.php;
+            systemctl restart $PHP_FPM_SERVICE
+            systemctl enable $PHP_FPM_SERVICE
 
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
+            systemctl restart caddy
+            systemctl enable caddy
 
-    location ~ \.php\$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php${PHP_VERSION}-fpm.sock;
-    }
-
-    location ~ /\.ht {
-        deny all;
-    }
-}
-
-server {
-    listen 8443 ssl;
-    server_name $DOMAIN_PANEL;
-
-    ssl_certificate /etc/letsencrypt/live/$DOMAIN_PANEL/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN_PANEL/privkey.pem;
-
-    location / {
-        proxy_pass http://127.0.0.1:8880;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-    }
-}
-EOF
-
-            ln -sf /etc/nginx/sites-available/panel /etc/nginx/sites-enabled/panel
-
-            nginx -t && systemctl restart nginx
-            systemctl enable "$PHP_FPM_SERVICE" nginx
-
-            echo -e "${GREEN}🔐 Memasang SSL Let's Encrypt untuk $DOMAIN_PANEL...${NC}"
-            certbot certonly --webroot -w /var/www/panel -d "$DOMAIN_PANEL" --agree-tos --email admin@"$DOMAIN_PANEL" --non-interactive
-
-            nginx -t && systemctl reload nginx
-
-            echo -e "${GREEN}✅ Sukses! Akses panel di: https://$DOMAIN_PANEL:8443${NC}"
+            echo -e "${GREEN}✅ Sukses! Akses panel di: https://${DOMAIN_PANEL}${NC}"
             read -n 1 -s -r -p "Tekan tombol apapun untuk kembali..."
             menu_webadmin
             ;;
@@ -125,8 +100,8 @@ EOF
         3)
             banner
             echo -e "${CYAN}🌍 Akses Panel Web via:${NC}"
-            echo -e "${YELLOW}- https://${DOMAIN_PANEL}:8443 (dengan SSL)"
-            echo -e "${YELLOW}- http://${IPVPS}:8080       (PHP server tanpa nginx)"
+            echo -e "${YELLOW}- https://${DOMAIN_PANEL} (via Caddy)"
+            echo -e "${YELLOW}- http://${IPVPS}:8080       (PHP server tanpa Caddy)"
             read -n 1 -s -r -p "Tekan tombol apapun untuk kembali..."
             menu_webadmin
             ;;
@@ -143,6 +118,31 @@ EOF
             menu_webadmin
             ;;
 
+        5)
+            banner
+            echo -e "${YELLOW}📁 Folder yang tersedia di /var/www/html:${NC}"
+            ls -1 /var/www/html
+            echo -e "\n${YELLOW}🔧 Masukkan nama folder yang ingin dijadikan root Caddy (contoh: facebook):${NC}"
+            read -p "➤ " FOLDER
+
+            if [ -d "/var/www/html/$FOLDER" ]; then
+                echo -e "${YELLOW}🌐 Masukkan domain untuk folder ini (contoh: facebook.domainkamu.com):${NC}"
+                read -p "➤ " DOMAIN_CUSTOM
+
+                echo "${DOMAIN_CUSTOM} {
+            root * /var/www/html/${FOLDER}
+            file_server
+            }" >> /etc/caddy/Caddyfile
+
+                systemctl reload caddy
+                echo -e "${GREEN}✅ Domain ${DOMAIN_CUSTOM} sekarang mengarah ke folder /var/www/html/${FOLDER}${NC}"
+            else
+                echo -e "${RED}❌ Folder /var/www/html/${FOLDER} tidak ditemukan.${NC}"
+            fi
+            read -n 1 -s -r -p "Tekan tombol apapun untuk kembali..."
+            menu_webadmin
+            ;;
+
         0)
             clear
             echo "Kembali ke menu utama..."
@@ -154,7 +154,7 @@ EOF
             sleep 1
             menu_webadmin
             ;;
-    esac
+            esac
 }
 
 menu_webadmin
