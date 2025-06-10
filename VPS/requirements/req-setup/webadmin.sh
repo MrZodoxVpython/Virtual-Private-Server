@@ -59,17 +59,18 @@ function menu_webadmin() {
             cat > /etc/caddy/Caddyfile <<EOF
             ${DOMAIN_PANEL} {
             # Reverse proxy untuk Xray (WS TLS)
-            sgdo-2dev.tokomard.store {
-                    # Sesuaikan path dan port sesuai konfigurasi Xray Anda
-                    reverse_proxy /vmess 127.0.0.1:23456
-                    reverse_proxy /vless-ws 127.0.0.1:14016
-                    reverse_proxy /trojan-ws 127.0.0.1:25432
-                    reverse_proxy /ss-ws 127.0.0.1:30300
-                    encode gzip
+                sgdo-2dev.tokomard.store {
+                # Sesuaikan path dan port sesuai konfigurasi Xray Anda
+                reverse_proxy /vmess 127.0.0.1:23456
+                reverse_proxy /vless-ws 127.0.0.1:14016
+                reverse_proxy /trojan-ws 127.0.0.1:25432
+                reverse_proxy /ss-ws 127.0.0.1:30300
+                encode gzip
             }
             # website statis HTML
-            panel.tokomard.store {
+                panel.tokomard.store {
                 root * /var/www/html/xray-panel
+                try_files {path} {path}/ /index.html /index.php
                 php_fastcgi unix//run/php/php7.4-fpm.sock
                 file_server
             }
