@@ -91,7 +91,10 @@ auto_lock_accounts() {
       else
         for i in "${!block_lines[@]}"; do
           line="${block_lines[i]}"
-          if [[ "$line" =~ ^###[[:space:]]+([a-zA-Z0-9_]+)[[:space:]]+([0-9]{4}-[0-9]{2}-[0-9]{2})$ ]]; then
+          if [[ ("$proto" == "vless" && "$line" =~ ^#\&[[:space:]]*([a-zA-Z0-9_]+)[[:space:]]+([0-9]{4}-[0-9]{2}-[0-9]{2})$) ||
+      ("$proto" == "ss" && "$line" =~ ^#\$[[:space:]]*([a-zA-Z0-9_]+)[[:space:]]+([0-9]{4}-[0-9]{2}-[0-9]{2})$) ||
+      ("$proto" == "vmess" && "$line" =~ ^###[[:space:]]+([a-zA-Z0-9_]+)[[:space:]]+([0-9]{4}-[0-9]{2}-[0-9]{2})$) ]]; then
+
             username="${BASH_REMATCH[1]}"
             exp="${BASH_REMATCH[2]}"
             exp_ts=$(date -d "$exp" +%s 2>/dev/null)
@@ -105,8 +108,8 @@ auto_lock_accounts() {
               next_line="${block_lines[next_index]}"
             fi
             if (( exp_ts < today_ts )) && [[ "$next_line" != "##LOCK##" ]]; then
-              abs_line_num=$((tag_line_num + 1 + next_index))
-
+              #abs_line_num=$((tag_line_num + 1 + next_index)) #tidak mengacu pada baris komentar tanggal user
+              abs_line_num=$((tag_line_num + 1 + i))
               save_original_date "$username" "$tag" "$exp"
               save_backup_line "$username" "$tag" "$next_line"
 
