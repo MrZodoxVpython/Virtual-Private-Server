@@ -60,10 +60,10 @@ Description=Simple XolPanel - @XolPanel
 After=network.target
 
 [Service]
-WorkingDirectory=/root/xolpanel
+WorkingDirectory=/root
 ExecStart=/usr/bin/python3 -m xolpanel
 Restart=always
-User=root
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
