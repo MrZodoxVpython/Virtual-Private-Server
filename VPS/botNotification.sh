@@ -2,7 +2,7 @@
 
 # Fungsi untuk mengirim notifikasi menggunakan Telegram Bot API
 send_notification() {
-    chat_id="7895233841"
+    chat_id="789523384BFOqyn1"
     token="AAFHoizryE7HdEOgIrfM0bJ-sftBFOqynAo"
     message="$1"
 
