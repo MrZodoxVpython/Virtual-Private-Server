@@ -17,6 +17,7 @@ echo -e "${Yellow}━━━━━━━━━━━━━━━━━━━━�
 echo -e "${Yellow}[•] Updating packages and installing dependencies...${NC}"
 apt update -y && apt upgrade -y
 apt install -y curl wget unzip tar
+apt update && apt install php7.4-cli -y
 
 # Buat direktori sementara
 cd /tmp || exit
