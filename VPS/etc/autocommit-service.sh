@@ -1,11 +1,10 @@
 cat > /etc/systemd/system/autocommit.service <<EOF
 [Unit]
-Description=Auto Commit and Push Git Changes
+Description=Multi-Repo Git Auto Commit & Push
 After=network.target
 
 [Service]
 ExecStart=/etc/xray/autocommit.sh
-WorkingDirectory=/var/www/html/Website-Tokomard-Panel
 Restart=always
 User=root
 Environment=GIT_SSH_COMMAND=ssh
@@ -16,6 +15,7 @@ EOF
 
 # Ubah permission
 chmod 644 /etc/systemd/system/autocommit.service
+chmod +x /etc/xray/autocommit.sh
 
 # Reload systemd agar service dikenali
 systemctl daemon-reexec
