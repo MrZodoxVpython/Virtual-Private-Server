@@ -1,0 +1,13 @@
+[Unit]
+Description=Auto Commit and Push Git Changes
+After=network.target
+
+[Service]
+ExecStart=/etc/xray/autocommit.sh
+WorkingDirectory=/var/www/html/Website-Tokomard-Panel
+Restart=always
+User=root
+Environment=GIT_SSH_COMMAND=ssh
+
+[Install]
+WantedBy=multi-user.target
