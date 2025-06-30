@@ -569,7 +569,14 @@ cd
 
 yellow "[ BENJAMIN ] === PROCESSING INSTALL ACCOUNT CONTROLS ==="
 wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/requirements/req-setup/client/acc-control.sh -O /etc/xray/auto-lock.sh && chmod +x /etc/xray/auto-lock.sh
-wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/etc/autocommit-service.sh -O /etc/xray/autocommit-service.sh && chmod +x /etc/xray/autocommit-service.sh && ./etc/xray/autocommit-service.sh
+wget https://raw.githubusercontent.com/MrZodoxVpython/Virtual-Private-Server/main/VPS/etc/autocommit-service.sh \
+ -O /etc/xray/autocommit-service.sh \
+&& chmod +x /etc/xray/autocommit-service.sh \
+&& /etc/xray/autocommit-service.sh
+systemctl daemon-reload
+systemctl enable autocommit
+systemctl restart autocommit
+
 green "=== ACCOUNT CONTROLS INSTALLED ==="
 
 cd /usr/bin/
