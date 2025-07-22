@@ -415,6 +415,7 @@ chmod +x m-tcp
 chmod +x xp
 chmod +x sshws
 chmod +x m-dns
+chmod +x /usr/bin/restore
 cd
 
 cat > /etc/cron.d/re_otm <<-END
