@@ -8,16 +8,16 @@ rclone copy GDRIVE:/Backup-VPN/backup-vpn.tar.gz /root/ --progress
 tar -xzf /root/backup-vpn.tar.gz -C /root/
 
 # Pulihkan file ke lokasi aslinya
-cp -r /root/backup-vpn/xray /etc/
-cp -r /root/backup-vpn/v2ray /etc/ 2>/dev/null
-cp -f /root/backup-vpn/passwd /etc/
-cp -r /root/backup-vpn/cron.d /etc/
-cp -r /root/backup-vpn/ssh /etc/
-cp -r /root/backup-vpn/system /etc/systemd/
+cp -r /root/backup-vpn/etc/xray /etc/
+cp -r /root/backup-vpn/etc/v2ray /etc/ 2>/dev/null
+cp -f /root/backup-vpn/etc/passwd /etc/
+cp -r /root/backup-vpn/etc/cron.d /etc/
+cp -r /root/backup-vpn/etc/ssh /etc/
+cp -r /root/backup-vpn/etc/system /etc/systemd/
 
-cp -f /root/backup-vpn/shadow /etc/
-cp -f /root/backup-vpn/group /etc/
-cp -f /root/backup-vpn/gshadow /etc/
+cp -f /root/backup-vpn/etc/shadow /etc/
+cp -f /root/backup-vpn/etc/group /etc/
+cp -f /root/backup-vpn/etc/gshadow /etc/
 
 # Restart layanan
 systemctl daemon-reexec
