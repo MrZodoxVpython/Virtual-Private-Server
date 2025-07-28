@@ -1,28 +1,72 @@
 #!/bin/bash
-echo "Starting VPN Data Restore..."
 
-# Unduh file backup terbaru dari Google Drive
-rclone copy GDRIVE:/Backup-VPN/backup-vpn.tar.gz /root/ --progress
+# 🛑 Harus dijalankan sebagai root
+if [[ $EUID -ne 0 ]]; then
+  echo "❌ Harus dijalankan sebagai root!"
+  exit 1
+fi
 
-# Ekstrak isi file
-tar -xzf /root/backup-vpn.tar.gz -C /root/
+# 📁 Lokasi file lokal & script restore
+BACKUP_FILE="/var/www/html/Website-Tokomard-Panel/admin/backup-vpn.tar.gz"
+RESTORE_SCRIPT="/var/www/html/Website-Tokomard-Panel/admin/auto-restore-vpn.sh"
 
-# Pulihkan file ke lokasi aslinya
-cp -r /root/backup-vpn/etc/xray /etc/
-cp -r /root/backup-vpn/etc/v2ray /etc/ 2>/dev/null
-cp -f /root/backup-vpn/etc/passwd /etc/
-cp -r /root/backup-vpn/etc/cron.d /etc/
-cp -r /root/backup-vpn/etc/ssh /etc/
-cp -r /root/backup-vpn/etc/system /etc/systemd/
+echo "=== 🔁 MENU RESTORE BACKUP VPN ==="
+echo "1. 📂 Restore dari file lokal"
+echo "2. ☁ Restore dari Google Drive (via token JSON)"
+read -p "Pilih opsi (1/2): " mode
 
-cp -f /root/backup-vpn/etc/shadow /etc/
-cp -f /root/backup-vpn/etc/group /etc/
-cp -f /root/backup-vpn/etc/gshadow /etc/
+if [[ "$mode" == "1" ]]; then
+  if [[ -f "$BACKUP_FILE" ]]; then
+    echo "✅ File ditemukan, mulai proses restore..."
+    tar -xzf "$BACKUP_FILE" -C /root
+    cp -r /root/backup-vpn/* / --no-preserve=ownership
+    echo "✅ Restore dari file lokal berhasil!"
+  else
+    echo "❌ File backup $BACKUP_FILE tidak ditemukan!"
+    exit 1
+  fi
 
-# Restart layanan
-systemctl daemon-reexec
-systemctl daemon-reload
-systemctl restart xray
-systemctl restart ssh
+elif [[ "$mode" == "2" ]]; then
+  echo "📛 Masukkan nama folder VPS di Google Drive (contoh: SGDO-2DEV)"
+  read -p "→ Nama VPS: " VPS_NAME
 
-echo "✅ Restore selesai!"
+  echo "🔑 Paste token JSON (satu baris, mulai dari { hingga })"
+  read -p "→ Token JSON: " token
+
+  TOKEN_FILE="/tmp/token.json"
+  echo "$token" > "$TOKEN_FILE"
+
+  if ! jq .access_token "$TOKEN_FILE" &>/dev/null; then
+    echo "❌ Token JSON tidak valid!"
+    exit 1
+  fi
+
+  echo "🔧 Membuat konfigurasi rclone..."
+  mkdir -p /root/.config/rclone
+  cat > /root/.config/rclone/rclone.conf <<EOF
+[GDRIVE]
+type = drive
+scope = drive
+token = $token
+team_drive =
+EOF
+
+  echo "☁ Mengunduh file backup dari Google Drive folder: $VPS_NAME..."
+  if rclone --config="/root/.config/rclone/rclone.conf" copy "GDRIVE:/TOKOMARD/Backup-VPS/$VPS_NAME/backup-vpn.tar.gz" /root/; then
+    echo "🗜 Mengekstrak dan merestore..."
+    tar -xzf /root/backup-vpn.tar.gz -C /root
+    cp -r /root/backup-vpn/* / --no-preserve=ownership
+    echo "✅ Restore dari GDrive berhasil!"
+
+    echo "🔁 Restart layanan xray dan ssh..."
+    systemctl restart xray && echo "✅ xray berhasil direstart" || echo "❌ Gagal restart xray"
+    systemctl restart ssh && echo "✅ ssh berhasil direstart" || echo "❌ Gagal restart ssh"
+  else
+    echo "❌ Gagal mengunduh dari Google Drive."
+    exit 1
+  fi
+
+else
+  echo "❌ Pilihan tidak valid!"
+  exit 1
+fi
