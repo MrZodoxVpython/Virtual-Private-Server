@@ -1,35 +1,85 @@
 #!/bin/bash
 
-echo "Starting VPN Data Backup..."
-
-BACKUP_DIR="/root/backup-vpn"
+RCLONE_CONF="/root/.config/rclone/rclone.conf"
+BACKUP_DIR="/root/backup-vpn/etc"
+BACKUP_PARENT="/root/backup-vpn"
 BACKUP_FILE="/root/backup-vpn.tar.gz"
-DATE=$(date +%Y-%m-%d)
+WEB_DEST="/var/www/html/Website-Tokomard-Panel/admin/backup-from-remote/backup-vpn.tar.gz"
 
-# Buat direktori sementara
-mkdir -p $BACKUP_DIR
+# ✅ Input nama VPS (langsung)
+read -p "📛 Masukkan nama VPS (contoh: SGDO-2DEV): " VPS_NAME
 
-# Backup konfigurasi dan akun penting
-cp -r /etc/xray $BACKUP_DIR/
-cp -r /etc/v2ray $BACKUP_DIR/ 2>/dev/null
-cp -r /etc/passwd /etc/shadow /etc/group /etc/gshadow $BACKUP_DIR/
-cp -r /etc/cron.d $BACKUP_DIR/
-cp -r /etc/ssh $BACKUP_DIR/
-cp -r /etc/systemd/system $BACKUP_DIR/
+# ✅ Input token JSON (langsung satu baris, tanpa Ctrl+D)
+echo
+echo "🔑 Masukkan isi lengkap TOKEN JSON (satu baris, pastikan dimulai dengan { dan diakhiri dengan }):"
+read -r TOKEN_JSON
 
-# Buat file .tar.gz backup
-tar -czf $BACKUP_FILE -C /root backup-vpn
-
-# Upload ke Google Drive dengan remote yang benar
-rclone copy $BACKUP_FILE GDRIVE:/Backup-VPN/ --progress
-
-if [ $? -eq 0 ]; then
-  echo "✅ Backup selesai!"
-  echo "🗂 Disimpan sebagai: $BACKUP_FILE"
-  echo "☁️ Upload ke Google Drive: GDRIVE:/Backup-VPN/$(basename $BACKUP_FILE)"
-else
-  echo "❌ Upload ke Google Drive gagal!"
+# ✅ Validasi token JSON
+if ! echo "$TOKEN_JSON" | jq .access_token &>/dev/null; then
+    echo "❌ Token JSON tidak valid!"
+    exit 1
 fi
 
-# Bersihkan direktori sementara
-rm -rf $BACKUP_DIR
+# ✅ Cek dan install rclone jika belum ada
+if ! command -v rclone &>/dev/null; then
+    echo "📥 Menginstall rclone..."
+    curl https://rclone.org/install.sh | bash || { echo "❌ Gagal menginstal rclone!"; exit 1; }
+fi
+
+# ✅ Buat konfigurasi rclone
+mkdir -p "$(dirname "$RCLONE_CONF")"
+cat > "$RCLONE_CONF" <<EOF
+[GDRIVE]
+type = drive
+scope = drive
+token = $TOKEN_JSON
+team_drive =
+EOF
+
+echo "📛 Nama VPS: $VPS_NAME"
+
+# ✅ Persiapan folder backup
+mkdir -p "$BACKUP_DIR"
+cp -r /etc/xray "$BACKUP_DIR/" 2>/dev/null || echo "⚠ /etc/xray tidak ditemukan"
+cp -r /etc/v2ray "$BACKUP_DIR/" 2>/dev/null || echo "⚠ /etc/v2ray tidak ditemukan"
+cp -r /etc/passwd /etc/shadow /etc/group /etc/gshadow "$BACKUP_DIR/" 2>/dev/null
+cp -r /etc/cron.d "$BACKUP_DIR/" 2>/dev/null
+cp -r /etc/ssh "$BACKUP_DIR/" 2>/dev/null
+cp -r /etc/systemd/system "$BACKUP_DIR/" 2>/dev/null
+
+# ✅ Buat file tar.gz
+echo "🗜 Membuat arsip backup..."
+tar -czf "$BACKUP_FILE" -C /root backup-vpn
+
+# ✅ Hak akses agar bisa didownload web panel
+chown www-data:www-data "$BACKUP_FILE"
+chmod 755 "$BACKUP_FILE"
+
+if [ ! -f "$BACKUP_FILE" ]; then
+    echo "❌ File backup gagal dibuat."
+    ls -lah "$BACKUP_PARENT"
+    exit 1
+fi
+
+# ✅ Upload ke Google Drive
+GDRIVE_FOLDER="TOKOMARD/Backup-VPS/$VPS_NAME"
+echo "☁ Mengupload ke Google Drive: $GDRIVE_FOLDER"
+
+if ! rclone --config="$RCLONE_CONF" copy "$BACKUP_FILE" "GDRIVE:$GDRIVE_FOLDER" --progress; then
+    echo "❌ Upload ke Google Drive gagal!"
+else
+    echo "✅ Upload ke Google Drive berhasil ke $GDRIVE_FOLDER!"
+fi
+
+# ✅ Salin ke web folder
+cp "$BACKUP_FILE" "$WEB_DEST"
+chown www-data:www-data "$WEB_DEST"
+chmod 755 "$WEB_DEST"
+
+# ✅ Bersihkan
+rm -rf "$BACKUP_DIR"
+rm -f "$BACKUP_FILE"
+rm -rf "$BACKUP_PARENT"
+
+echo "✅ Backup berhasil! File tersedia untuk diunduh di web panel."
+
