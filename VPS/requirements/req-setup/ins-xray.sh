@@ -626,6 +626,13 @@ mv /root/domain /etc/xray/
 if [ -f /root/scdomain ];then
 rm /root/scdomain > /dev/null 2>&1
 fi
+cd
+touch /var/log/xray-clean.log
+chmod 644 /var/log/xray-clean.log
+chown root:root /var/log/xray-clean.log
+chmod 755 /usr/bin/backup
+apt install rclone
+
 yellow "[ BENJAMIN ]" tyblue "=== ALL HAS BEEN COMPLETE! ==="
 clear
 rm -rf ins-xray.sh
