@@ -81,5 +81,5 @@ rm -rf "$BACKUP_DIR"
 rm -f "$BACKUP_FILE"
 rm -rf "$BACKUP_PARENT"
 
-echo "✅ Backup berhasil! File tersedia untuk diunduh di web panel."
+echo "✅ Backup berhasil! File tersedia untuk diunduh di web drive."
 
