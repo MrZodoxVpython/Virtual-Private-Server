@@ -4,7 +4,7 @@ RCLONE_CONF="/root/.config/rclone/rclone.conf"
 BACKUP_DIR="/root/backup-vpn/etc"
 BACKUP_PARENT="/root/backup-vpn"
 BACKUP_FILE="/root/backup-vpn.tar.gz"
-WEB_DEST="/var/www/html/Website-Tokomard-Panel/admin/backup-from-remote/backup-vpn.tar.gz"
+#WEB_DEST="/var/www/html/Website-Tokomard-Panel/admin/backup-from-remote/backup-vpn.tar.gz"
 
 # ✅ Input nama VPS (langsung)
 read -p "📛 Masukkan nama VPS (contoh: SGDO-2DEV): " VPS_NAME
@@ -72,9 +72,9 @@ else
 fi
 
 # ✅ Salin ke web folder
-cp "$BACKUP_FILE" "$WEB_DEST"
-chown www-data:www-data "$WEB_DEST"
-chmod 755 "$WEB_DEST"
+#cp "$BACKUP_FILE" "$WEB_DEST"
+#chown www-data:www-data "$WEB_DEST"
+#chmod 755 "$WEB_DEST"
 
 # ✅ Bersihkan
 rm -rf "$BACKUP_DIR"
