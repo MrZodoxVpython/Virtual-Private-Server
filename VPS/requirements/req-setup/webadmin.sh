@@ -93,12 +93,6 @@ ${DOMAIN_PANEL} {
     php_fastcgi unix//run/php/${PHP_VERSION}-fpm.sock
     file_server
 }
-klinik-gua.tokomard.store {
-    root * /var/www/html/Project-Akhir-UAS
-    try_files {path} {path}/ /index.html /index.php
-    php_fastcgi unix//run/php/php7.4-fpm.sock
-    file_server
-}
 EOF
 
             systemctl restart $PHP_FPM_SERVICE
