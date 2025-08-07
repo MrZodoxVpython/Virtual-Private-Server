@@ -120,6 +120,7 @@ apt install zlib1g-dev -y
 apt install libssl-dev -y
 apt install dos2unix -y
 gem install lolcat
+apt install socat -y
 
 # set time GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
