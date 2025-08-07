@@ -52,13 +52,22 @@ function menu_webadmin() {
             echo -e "${YELLOW}🌐 Masukkan domain website kamu (Contoh: panel.tokomard.store):${NC}"
             read -p "➤ " DOMAIN_PANEL
 
+            # Ambil domain untuk Xray dari file
+            XRAY_DOMAIN=$(cat /etc/xray/scdomain)
+
+            # Validasi isi domain
+            if [[ -z "$XRAY_DOMAIN" ]]; then
+                echo -e "${RED}❌ Domain Xray tidak ditemukan di /etc/xray/scdomain${NC}"
+                exit 1
+            fi
+            
             mkdir -p /var/www/html
             curl -s https://raw.githubusercontent.com/MrZodoxVpython/Website-Tokomard-Panel -o /var/www/html
             chown -R www-data:www-data /var/www/html
 
             cat > /etc/caddy/Caddyfile <<EOF
 # Reverse proxy untuk Xray (WS TLS)
-sgdo-2dev.tokomard.store {
+${XRAY_DOMAIN} {
     reverse_proxy /trojan-ws 127.0.0.1:25432 {
         transport http {
             versions h1
