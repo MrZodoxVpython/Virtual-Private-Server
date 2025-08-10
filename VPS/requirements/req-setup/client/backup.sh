@@ -1,23 +1,36 @@
 #!/bin/bash
 
 RCLONE_CONF="/root/.config/rclone/rclone.conf"
+TOKEN_FILE="/etc/xray/token.json"
 BACKUP_DIR="/root/backup-vpn/etc"
 BACKUP_PARENT="/root/backup-vpn"
 BACKUP_FILE="/root/backup-vpn.tar.gz"
-#WEB_DEST="/var/www/html/Website-Tokomard-Panel/admin/backup-from-remote/backup-vpn.tar.gz"
 
-# ✅ Input nama VPS (langsung)
+# ✅ Pastikan folder /etc/xray ada
+mkdir -p /etc/xray
+
+# ✅ Input nama VPS
 read -p "📛 Masukkan nama VPS (contoh: SGDO-2DEV): " VPS_NAME
 
-# ✅ Input token JSON (langsung satu baris, tanpa Ctrl+D)
-echo
-echo "🔑 Masukkan isi lengkap TOKEN JSON (satu baris, pastikan dimulai dengan { dan diakhiri dengan }):"
-read -r TOKEN_JSON
+# ✅ Cek apakah token sudah disimpan
+if [ -f "$TOKEN_FILE" ]; then
+    echo "🔄 Menggunakan token JSON yang sudah disimpan..."
+    TOKEN_JSON=$(<"$TOKEN_FILE")
+else
+    echo
+    echo "🔑 Masukkan isi lengkap TOKEN JSON (satu baris, pastikan dimulai dengan { dan diakhiri dengan }):"
+    read -r TOKEN_JSON
 
-# ✅ Validasi token JSON
-if ! echo "$TOKEN_JSON" | jq .access_token &>/dev/null; then
-    echo "❌ Token JSON tidak valid!"
-    exit 1
+    # ✅ Validasi token JSON
+    if ! echo "$TOKEN_JSON" | jq .access_token &>/dev/null; then
+        echo "❌ Token JSON tidak valid!"
+        exit 1
+    fi
+
+    # ✅ Simpan token ke file
+    echo "$TOKEN_JSON" > "$TOKEN_FILE"
+    chmod 600 "$TOKEN_FILE"
+    echo "✅ Token JSON disimpan di $TOKEN_FILE"
 fi
 
 # ✅ Cek dan install rclone jika belum ada
@@ -71,15 +84,9 @@ else
     echo "✅ Upload ke Google Drive berhasil ke $GDRIVE_FOLDER!"
 fi
 
-# ✅ Salin ke web folder
-#cp "$BACKUP_FILE" "$WEB_DEST"
-#chown www-data:www-data "$WEB_DEST"
-#chmod 755 "$WEB_DEST"
-
 # ✅ Bersihkan
 rm -rf "$BACKUP_DIR"
 rm -f "$BACKUP_FILE"
 rm -rf "$BACKUP_PARENT"
 
 echo "✅ Backup berhasil! File tersedia untuk diunduh di web drive."
-
