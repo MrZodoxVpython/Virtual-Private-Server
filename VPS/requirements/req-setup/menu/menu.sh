@@ -253,7 +253,10 @@ case "$PROTOCOL" in
 esac
 
 # ===== Backup config.json =====
-cp "$CONFIG_FILE" "${CONFIG_FILE}.bak-$(date +%Y%m%d%H%M%S)"
+#replaced the 1 file only with the latest backup config json
+cp "$CONFIG_FILE" "${CONFIG_FILE}.bak"
+#make another config.json file backup and date
+#cp "$CONFIG_FILE" "${CONFIG_FILE}.bak-$(date +%Y%m%d%H%M%S)"
 
 # ===== Fungsi menyisipkan ke satu tag =====
 insert_into_tag() {
