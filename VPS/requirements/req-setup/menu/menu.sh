@@ -358,6 +358,7 @@ echo -e "║  \e[1;93m7\e[0m  : Menu Force Create Account                       
 echo -e "║  \e[1;93m8\e[0m  : Menu Web Admin                                   ║"
 echo -e "║  \e[1;93m9\e[0m  : Menu System                                      ║"
 echo -e "║  \e[1;93m10\e[0m : Reboot                                           ║"
+echo -e "║  \e[1;93m11\e[0m : Update Script                                    ║"
 echo -e "║  \e[1;93mc\e[0m  : Clear Cache                                      ║"
 echo -e "║  \e[1;93mb\e[0m  : Backup Account                                   ║"
 echo -e "║  \e[1;93mr\e[0m  : Restore Account                                  ║"
@@ -395,6 +396,7 @@ case $benjaminwickman in
 8) clear ; webadmin ;;
 9) clear ; m-system ;;
 10) clear ; reboot ; /sbin/reboot ;;
+11) clear ; update ;;
 c) clear ; clearcache ;;
 b) clear ; backup ;;
 r) clear ; restore ;;
